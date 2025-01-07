@@ -1,4 +1,14 @@
+// README:
+//
+// This script uses Prost crate to generate Rust sources from proto files.
+// The script should be run as a build script - this will be done automatically after renaming to `build.rs` (a little hack).
+//
+// After generating sources, the sources should be copied into `src/generated` and the errors ought to be resolved manually.
+
 use prost_build;
+use std::io;
+use std::path::PathBuf;
+use std::{collections::HashMap, fs};
 
 // Proto files corresponding to the Phenopacket Schema hierarchy leaves.
 // The dependencies are imported and compiled automatically.

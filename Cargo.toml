@@ -1,7 +1,17 @@
 [package]
 name = "phenopackets"
 version = "0.1.0"
+authors = [
+    "Daniel Danis", "Daniel Danis <daniel.gordon.danis@protonmail.com>",
+]
 edition = "2021"
+description = "Rust bindings for Phenopacket Schema"
+readme = "README.md"
+license-file = "LICENSE"
+keywords = ["phenopackets", "phenopacket schema", "phenotype", "ontology", "bioinformatics"]
+
+[badges]
+maintenance = { status = "experimental" }
 
 [dependencies]
 prost = "0.13"

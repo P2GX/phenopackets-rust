@@ -1,5 +1,5 @@
 [package]
-name = "phenopackets"
+name = "phenopackets-dev"
 version = "0.1.0"
 authors = [
     "Daniel Danis", "Daniel Danis <daniel.gordon.danis@protonmail.com>",

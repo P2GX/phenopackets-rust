@@ -8,7 +8,7 @@ edition = "2021"
 description = "Rust bindings for Phenopacket Schema"
 readme = "README.md"
 license-file = "LICENSE"
-keywords = ["phenopackets", "phenopacket schema", "phenotype", "ontology", "bioinformatics"]
+keywords = ["phenopackets", "phenotype", "ontology", "bioinformatics"]
 
 [badges]
 maintenance = { status = "experimental" }

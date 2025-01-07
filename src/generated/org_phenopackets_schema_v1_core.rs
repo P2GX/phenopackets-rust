@@ -298,9 +298,7 @@ pub struct Biosample {
     /// as ontology term object.
     /// See <http://build.fhir.org/datatypes>
     #[prost(oneof = "biosample::IndividualAgeAtCollection", tags = "7, 8")]
-    pub individual_age_at_collection: ::core::option::Option<
-        biosample::IndividualAgeAtCollection,
-    >,
+    pub individual_age_at_collection: ::core::option::Option<biosample::IndividualAgeAtCollection>,
 }
 /// Nested message and enum types in `Biosample`.
 pub mod biosample {
@@ -415,15 +413,7 @@ pub mod pedigree {
     /// Nested message and enum types in `Person`.
     pub mod person {
         #[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
         )]
         #[repr(i32)]
         pub enum AffectedStatus {
@@ -474,24 +464,12 @@ pub struct HtsFile {
     /// A map of identifiers mapping an individual to a sample in the file. The key values must correspond to the
     /// Individual::id for the individuals in the message, the values must map to the samples in the file.
     #[prost(map = "string, string", tag = "5")]
-    pub individual_to_sample_identifiers: ::std::collections::HashMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
+    pub individual_to_sample_identifiers:
+        ::std::collections::HashMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
 }
 /// Nested message and enum types in `HtsFile`.
 pub mod hts_file {
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum HtsFormat {
         Unknown = 0,

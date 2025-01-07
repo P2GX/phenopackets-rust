@@ -23,9 +23,7 @@ pub mod variation {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MolecularVariation {
     #[prost(oneof = "molecular_variation::MolecularVariation", tags = "1, 2")]
-    pub molecular_variation: ::core::option::Option<
-        molecular_variation::MolecularVariation,
-    >,
+    pub molecular_variation: ::core::option::Option<molecular_variation::MolecularVariation>,
 }
 /// Nested message and enum types in `MolecularVariation`.
 pub mod molecular_variation {
@@ -55,9 +53,7 @@ pub mod utility_variation {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SystemicVariation {
     #[prost(oneof = "systemic_variation::SystemicVariation", tags = "1")]
-    pub systemic_variation: ::core::option::Option<
-        systemic_variation::SystemicVariation,
-    >,
+    pub systemic_variation: ::core::option::Option<systemic_variation::SystemicVariation>,
 }
 /// Nested message and enum types in `SystemicVariation`.
 pub mod systemic_variation {
@@ -298,9 +294,7 @@ pub struct CytobandInterval {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SequenceExpression {
     #[prost(oneof = "sequence_expression::SequenceExpression", tags = "1, 2, 3")]
-    pub sequence_expression: ::core::option::Option<
-        sequence_expression::SequenceExpression,
-    >,
+    pub sequence_expression: ::core::option::Option<sequence_expression::SequenceExpression>,
 }
 /// Nested message and enum types in `SequenceExpression`.
 pub mod sequence_expression {

@@ -121,17 +121,13 @@ pub struct File {
     /// A map of identifiers mapping an individual to a sample in the file. The key values must correspond to the
     /// Individual::id for the individuals in the message, the values must map to the samples in the file.
     #[prost(map = "string, string", tag = "2")]
-    pub individual_to_file_identifiers: ::std::collections::HashMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
+    pub individual_to_file_identifiers:
+        ::std::collections::HashMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
     /// Map of attributes describing the file. For example the File format or genome assembly would be defied here. For
     /// genomic data files there MUST be a 'genomeAssembly' key.
     #[prost(map = "string, string", tag = "3")]
-    pub file_attributes: ::std::collections::HashMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
+    pub file_attributes:
+        ::std::collections::HashMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
 }
 /// FHIR mapping: Observation (<https://www.hl7.org/fhir/observation.html>)
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -435,17 +431,7 @@ pub struct Interpretation {
 }
 /// Nested message and enum types in `Interpretation`.
 pub mod interpretation {
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum ProgressStatus {
         UnknownProgress = 0,
@@ -499,7 +485,10 @@ pub struct GenomicInterpretation {
     /// enclosing phenopacket.
     #[prost(string, tag = "1")]
     pub subject_or_biosample_id: ::prost::alloc::string::String,
-    #[prost(enumeration = "genomic_interpretation::InterpretationStatus", tag = "2")]
+    #[prost(
+        enumeration = "genomic_interpretation::InterpretationStatus",
+        tag = "2"
+    )]
     pub interpretation_status: i32,
     /// Gene or variant identified in subject or biosample and interpreted in relation to the disease diagnosis. In this
     /// context athe 'gene' is a proxy for an unspecified alteration in the indicated gene.
@@ -508,17 +497,7 @@ pub struct GenomicInterpretation {
 }
 /// Nested message and enum types in `GenomicInterpretation`.
 pub mod genomic_interpretation {
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum InterpretationStatus {
         UnknownStatus = 0,
@@ -570,9 +549,8 @@ pub struct VariantInterpretation {
     #[prost(enumeration = "TherapeuticActionability", tag = "2")]
     pub therapeutic_actionability: i32,
     #[prost(message, optional, tag = "3")]
-    pub variation_descriptor: ::core::option::Option<
-        crate::ga4gh::vrsatile::v1::VariationDescriptor,
-    >,
+    pub variation_descriptor:
+        ::core::option::Option<crate::ga4gh::vrsatile::v1::VariationDescriptor>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -702,17 +680,7 @@ pub struct VitalStatus {
 /// Nested message and enum types in `VitalStatus`.
 pub mod vital_status {
     /// Default = false i.e. the individual is alive. MUST be true if
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Status {
         UnknownStatus = 0,
@@ -936,17 +904,7 @@ pub struct TherapeuticRegimen {
 }
 /// Nested message and enum types in `TherapeuticRegimen`.
 pub mod therapeutic_regimen {
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum RegimenStatus {
         UnknownStatus = 0,
@@ -1006,9 +964,7 @@ impl DrugType {
             Self::UnknownDrugType => "UNKNOWN_DRUG_TYPE",
             Self::Prescription => "PRESCRIPTION",
             Self::EhrMedicationList => "EHR_MEDICATION_LIST",
-            Self::AdministrationRelatedToProcedure => {
-                "ADMINISTRATION_RELATED_TO_PROCEDURE"
-            }
+            Self::AdministrationRelatedToProcedure => "ADMINISTRATION_RELATED_TO_PROCEDURE",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -1017,9 +973,7 @@ impl DrugType {
             "UNKNOWN_DRUG_TYPE" => Some(Self::UnknownDrugType),
             "PRESCRIPTION" => Some(Self::Prescription),
             "EHR_MEDICATION_LIST" => Some(Self::EhrMedicationList),
-            "ADMINISTRATION_RELATED_TO_PROCEDURE" => {
-                Some(Self::AdministrationRelatedToProcedure)
-            }
+            "ADMINISTRATION_RELATED_TO_PROCEDURE" => Some(Self::AdministrationRelatedToProcedure),
             _ => None,
         }
     }
@@ -1140,15 +1094,7 @@ pub mod pedigree {
     /// Nested message and enum types in `Person`.
     pub mod person {
         #[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
         )]
         #[repr(i32)]
         pub enum AffectedStatus {

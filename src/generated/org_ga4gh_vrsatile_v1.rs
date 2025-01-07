@@ -74,7 +74,7 @@ pub struct VariationDescriptor {
     /// We RECOMMEND using a descendent term of SO:0001537.
     #[prost(message, optional, tag = "12")]
     pub structural_type: ::core::option::Option<
-        crate::phenopackets::schema::v2::core::OntologyClass,
+        crate::schema::v2::core::OntologyClass,
     >,
     /// A Sequence corresponding to a “ref allele”, describing the sequence expected at a SequenceLocation reference.
     #[prost(string, tag = "13")]
@@ -83,7 +83,7 @@ pub struct VariationDescriptor {
     /// These SHOULD descend from concept GENO:0000875.
     #[prost(message, optional, tag = "14")]
     pub allelic_state: ::core::option::Option<
-        crate::phenopackets::schema::v2::core::OntologyClass,
+        crate::schema::v2::core::OntologyClass,
     >,
 }
 /// <https://vrsatile.readthedocs.io/en/latest/value_object_descriptor/vod_index.html#gene-descriptor>

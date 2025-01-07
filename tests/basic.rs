@@ -1,18 +1,4 @@
-use prost::Message;
-
-use phenopackets_dev::phenopackets::schema::v2;
-
-#[test]
-fn foo() {
-    let oc = v2::core::OntologyClass {
-        id: "HP:0001250".into(),
-        label: "Seizure".into(),
-    };
-
-    let encoded = oc.encode_to_vec();
-    println!("{:x?}", encoded);
-    println!("{:?}", oc);
-}
+use phenopackets_dev::schema::v2;
 
 #[test]
 fn ontology_class() {

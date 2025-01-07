@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package org.phenopackets.vrsatile.v1;
+package org.ga4gh.vrsatile.v1;
 
 import "phenopackets/vrs/v1/vrs.proto";
 import "phenopackets/schema/v2/core/base.proto";
@@ -35,7 +35,7 @@ message VcfRecord {
 
 message VariationDescriptor {
   string id = 1;
-  org.phenopackets.vrs.v1.Variation variation = 2;
+  org.ga4gh.vrs.v1.Variation variation = 2;
   string label = 3;
   string description = 4;
   // A specific gene context that applies to this variant.

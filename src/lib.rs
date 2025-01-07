@@ -14,14 +14,17 @@ pub mod phenopackets {
             include!(concat!(env!("OUT_DIR"), "/org.phenopackets.schema.v2.rs"));
         }
     }
+}
+
+pub mod ga4gh {
     pub mod vrsatile {
         pub mod v1 {
-            include!(concat!(env!("OUT_DIR"), "/org.phenopackets.vrsatile.v1.rs"));
+            include!(concat!(env!("OUT_DIR"), "/org.ga4gh.vrsatile.v1.rs"));
         }
     }
     pub mod vrs {
         pub mod v1 {
-            include!(concat!(env!("OUT_DIR"), "/org.phenopackets.vrs.v1.rs"));
+            include!(concat!(env!("OUT_DIR"), "/org.ga4gh.vrs.v1.rs"));
         }
     }
 }

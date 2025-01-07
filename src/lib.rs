@@ -1,3 +1,7 @@
+//! # Rust bindings for Phenopacket Schema
+//! 
+//! More documentation will arrive soon.
+
 // Include the `phenopackets` module, which is generated from the Phenopacket Schema proto files.
 pub mod phenopackets {
     pub mod schema {

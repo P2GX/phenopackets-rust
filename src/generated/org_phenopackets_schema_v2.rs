@@ -11,30 +11,39 @@ pub struct Phenopacket {
     pub id: ::prost::alloc::string::String,
     /// The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient
     #[prost(message, optional, tag = "2")]
-    pub subject: ::core::option::Option<crate::generated::org_phenopackets_schema_v2_core::Individual>,
+    pub subject:
+        ::core::option::Option<crate::generated::org_phenopackets_schema_v2_core::Individual>,
     /// Phenotypic features relating to the subject of the phenopacket
     #[prost(message, repeated, tag = "3")]
-    pub phenotypic_features: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v2_core::PhenotypicFeature>,
+    pub phenotypic_features: ::prost::alloc::vec::Vec<
+        crate::generated::org_phenopackets_schema_v2_core::PhenotypicFeature,
+    >,
     /// Quantifiable measurements related to the individual
     #[prost(message, repeated, tag = "4")]
-    pub measurements: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v2_core::Measurement>,
+    pub measurements:
+        ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v2_core::Measurement>,
     /// Biosample(s) derived from the patient or a collection of biosamples in isolation
     #[prost(message, repeated, tag = "5")]
-    pub biosamples: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v2_core::Biosample>,
+    pub biosamples:
+        ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v2_core::Biosample>,
     #[prost(message, repeated, tag = "6")]
-    pub interpretations: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v2_core::Interpretation>,
+    pub interpretations:
+        ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v2_core::Interpretation>,
     /// Field for disease identifiers - could be used for listing either diagnosed or suspected conditions. The
     /// resources using these fields should define what this represents in their context.
     #[prost(message, repeated, tag = "7")]
-    pub diseases: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v2_core::Disease>,
+    pub diseases:
+        ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v2_core::Disease>,
     #[prost(message, repeated, tag = "9")]
-    pub medical_actions: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v2_core::MedicalAction>,
+    pub medical_actions:
+        ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v2_core::MedicalAction>,
     /// Pointer to the relevant file(s) for the individual
     #[prost(message, repeated, tag = "10")]
     pub files: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v2_core::File>,
     /// Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED
     #[prost(message, optional, tag = "11")]
-    pub meta_data: ::core::option::Option<crate::generated::org_phenopackets_schema_v2_core::MetaData>,
+    pub meta_data:
+        ::core::option::Option<crate::generated::org_phenopackets_schema_v2_core::MetaData>,
 }
 /// Phenotype, sample and pedigree data required for a genomic diagnosis.
 /// Equivalent to the Genomics England InterpretationRequestRD
@@ -60,7 +69,8 @@ pub struct Family {
     /// The pedigree defining the relations between the proband and their relatives. Pedigree.individual_id should
     /// map to the PhenoPacket.Individual.id
     #[prost(message, optional, tag = "4")]
-    pub pedigree: ::core::option::Option<crate::generated::org_phenopackets_schema_v2_core::Pedigree>,
+    pub pedigree:
+        ::core::option::Option<crate::generated::org_phenopackets_schema_v2_core::Pedigree>,
     /// Pointer to the relevant file(s) for the family. These should be files relating to one or more of the family
     /// members e.g a multi-sample VCF. Files relating exclusively to individual phenopackets should be contained in the
     /// Phenopacket.
@@ -68,7 +78,8 @@ pub struct Family {
     pub files: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v2_core::File>,
     /// Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED
     #[prost(message, optional, tag = "6")]
-    pub meta_data: ::core::option::Option<crate::generated::org_phenopackets_schema_v2_core::MetaData>,
+    pub meta_data:
+        ::core::option::Option<crate::generated::org_phenopackets_schema_v2_core::MetaData>,
 }
 /// A group of individuals related in some phenotypic or genotypic aspect.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -85,5 +96,6 @@ pub struct Cohort {
     pub files: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v2_core::File>,
     /// Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED
     #[prost(message, optional, tag = "5")]
-    pub meta_data: ::core::option::Option<crate::generated::org_phenopackets_schema_v2_core::MetaData>,
+    pub meta_data:
+        ::core::option::Option<crate::generated::org_phenopackets_schema_v2_core::MetaData>,
 }

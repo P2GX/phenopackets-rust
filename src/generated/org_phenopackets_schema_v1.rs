@@ -11,13 +11,17 @@ pub struct Phenopacket {
     pub id: ::prost::alloc::string::String,
     /// The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient
     #[prost(message, optional, tag = "2")]
-    pub subject: ::core::option::Option<crate::generated::org_phenopackets_schema_v1_core::Individual>,
+    pub subject:
+        ::core::option::Option<crate::generated::org_phenopackets_schema_v1_core::Individual>,
     /// Phenotypic features relating to the subject of the phenopacket
     #[prost(message, repeated, tag = "3")]
-    pub phenotypic_features: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v1_core::PhenotypicFeature>,
+    pub phenotypic_features: ::prost::alloc::vec::Vec<
+        crate::generated::org_phenopackets_schema_v1_core::PhenotypicFeature,
+    >,
     /// Biosample(s) derived from the patient or a collection of biosamples in isolation
     #[prost(message, repeated, tag = "4")]
-    pub biosamples: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v1_core::Biosample>,
+    pub biosamples:
+        ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v1_core::Biosample>,
     /// Field for gene identifiers - could be used for listing either candidate genes or causative genes. The
     /// resources using these fields should define what this represents in their context. This could be used in order to
     /// obfuscate the specific causative/candidate variant.
@@ -26,17 +30,21 @@ pub struct Phenopacket {
     /// Field for genetic variants - could be used for listing either candidate variants or diagnosed causative
     /// variants. The resources using these fields should define what this represents in their context.
     #[prost(message, repeated, tag = "6")]
-    pub variants: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v1_core::Variant>,
+    pub variants:
+        ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v1_core::Variant>,
     /// Field for disease identifiers - could be used for listing either diagnosed or suspected conditions. The
     /// resources using these fields should define what this represents in their context.
     #[prost(message, repeated, tag = "7")]
-    pub diseases: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v1_core::Disease>,
+    pub diseases:
+        ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v1_core::Disease>,
     /// Pointer to the relevant HTS file(s) for the patient
     #[prost(message, repeated, tag = "8")]
-    pub hts_files: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v1_core::HtsFile>,
+    pub hts_files:
+        ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v1_core::HtsFile>,
     /// Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED
     #[prost(message, optional, tag = "9")]
-    pub meta_data: ::core::option::Option<crate::generated::org_phenopackets_schema_v1_core::MetaData>,
+    pub meta_data:
+        ::core::option::Option<crate::generated::org_phenopackets_schema_v1_core::MetaData>,
 }
 /// Phenotype, sample and pedigree data required for a genomic diagnosis.
 /// Equivalent to the Genomics England InterpretationRequestRD
@@ -59,14 +67,17 @@ pub struct Family {
     /// The pedigree defining the relations between the proband and their relatives. Pedigree.individual_id should
     /// map to the PhenoPacket.Individual.id
     #[prost(message, optional, tag = "4")]
-    pub pedigree: ::core::option::Option<crate::generated::org_phenopackets_schema_v1_core::Pedigree>,
+    pub pedigree:
+        ::core::option::Option<crate::generated::org_phenopackets_schema_v1_core::Pedigree>,
     /// Pointer to the relevant HTS file(s) for the family. These should be files relating to one or more of the family
     /// members e.g a multi-sample VCF
     #[prost(message, repeated, tag = "5")]
-    pub hts_files: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v1_core::HtsFile>,
+    pub hts_files:
+        ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v1_core::HtsFile>,
     /// Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED
     #[prost(message, optional, tag = "6")]
-    pub meta_data: ::core::option::Option<crate::generated::org_phenopackets_schema_v1_core::MetaData>,
+    pub meta_data:
+        ::core::option::Option<crate::generated::org_phenopackets_schema_v1_core::MetaData>,
 }
 /// A group of individuals related in some phenotypic or genotypic aspect.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -79,10 +90,12 @@ pub struct Cohort {
     pub members: ::prost::alloc::vec::Vec<Phenopacket>,
     /// Pointer to the relevant HTS file(s) for the cohort
     #[prost(message, repeated, tag = "4")]
-    pub hts_files: ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v1_core::HtsFile>,
+    pub hts_files:
+        ::prost::alloc::vec::Vec<crate::generated::org_phenopackets_schema_v1_core::HtsFile>,
     /// Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED
     #[prost(message, optional, tag = "5")]
-    pub meta_data: ::core::option::Option<crate::generated::org_phenopackets_schema_v1_core::MetaData>,
+    pub meta_data:
+        ::core::option::Option<crate::generated::org_phenopackets_schema_v1_core::MetaData>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Interpretation {
@@ -97,26 +110,15 @@ pub struct Interpretation {
     pub diagnosis: ::prost::alloc::vec::Vec<Diagnosis>,
     /// Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED
     #[prost(message, optional, tag = "6")]
-    pub meta_data: ::core::option::Option<crate::generated::org_phenopackets_schema_v1_core::MetaData>,
+    pub meta_data:
+        ::core::option::Option<crate::generated::org_phenopackets_schema_v1_core::MetaData>,
     /// The individual or family which this interpretation is derived from
     #[prost(oneof = "interpretation::PhenopacketOrFamily", tags = "3, 4")]
-    pub phenopacket_or_family: ::core::option::Option<
-        interpretation::PhenopacketOrFamily,
-    >,
+    pub phenopacket_or_family: ::core::option::Option<interpretation::PhenopacketOrFamily>,
 }
 /// Nested message and enum types in `Interpretation`.
 pub mod interpretation {
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum ResolutionStatus {
         Unknown = 0,
@@ -177,17 +179,7 @@ pub struct GenomicInterpretation {
 }
 /// Nested message and enum types in `GenomicInterpretation`.
 pub mod genomic_interpretation {
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Status {
         Unknown = 0,

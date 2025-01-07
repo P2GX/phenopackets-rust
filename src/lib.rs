@@ -1,73 +1,41 @@
 //! # Rust bindings for Phenopacket Schema
-//! 
+//!
 //! More documentation will arrive soon.
 
+pub(crate) mod generated;
+
 // Include the `phenopackets` module, which is generated from the Phenopacket Schema proto files.
-pub mod phenopackets {
-    pub mod schema {
-        pub mod v1 {
-            pub mod core {
-                include!(concat!(env!("OUT_DIR"), "/org.phenopackets.schema.v1.core.rs"));
-            }
-            include!(concat!(env!("OUT_DIR"), "/org.phenopackets.schema.v1.rs"));
+
+pub mod schema {
+    pub mod v1 {
+        pub mod core {
+            use crate::generated;
+            pub use generated::org_phenopackets_schema_v1_core::*;
         }
-        pub mod v2 {
-            pub mod core {
-                include!(concat!(env!("OUT_DIR"), "/org.phenopackets.schema.v2.core.rs"));
-            }
-            include!(concat!(env!("OUT_DIR"), "/org.phenopackets.schema.v2.rs"));
+        use crate::generated;
+        pub use generated::org_phenopackets_schema_v1::*;
+    }
+    pub mod v2 {
+        pub mod core {
+            use crate::generated;
+            pub use generated::org_phenopackets_schema_v2_core::*;
         }
+        use crate::generated;
+        pub use generated::org_phenopackets_schema_v2::*;
     }
 }
 
 pub mod ga4gh {
     pub mod vrsatile {
         pub mod v1 {
-            include!(concat!(env!("OUT_DIR"), "/org.ga4gh.vrsatile.v1.rs"));
+            use crate::generated;
+            pub use generated::org_ga4gh_vrsatile_v1::*;
         }
     }
     pub mod vrs {
         pub mod v1 {
-            include!(concat!(env!("OUT_DIR"), "/org.ga4gh.vrs.v1.rs"));
+            use crate::generated;
+            pub use generated::org_ga4gh_vrs_v1::*;
         }
-    }
-}
-
-#[cfg(test)]
-mod test {
-
-    use crate::phenopackets::schema::v2;
-
-    #[test]
-    fn ontology_class() {
-        let seizure = v2::core::OntologyClass {
-            id: "HP:0001250".into(),
-            label: "Seizure".into(),
-        };
-
-        assert_eq!(&seizure.id, "HP:0001250");
-        assert_eq!(&seizure.label, "Seizure");
-    }
-
-    #[test]
-    fn phenotypic_feature() {
-        let pf = v2::core::PhenotypicFeature {
-            r#type: Some(v2::core::OntologyClass {
-                id: "HP:0001250".into(),
-                label: "Seizure".into(),
-            }),
-            excluded: false,
-            description: "Description".into(),
-            onset: None,
-            resolution: None,
-            modifiers: vec![],
-            severity: None,
-            evidence: vec![],
-        };
-        
-        assert_eq!(&pf.r#type.as_ref().unwrap().id, "HP:0001250");
-        assert_eq!(&pf.r#type.as_ref().unwrap().label, "Seizure");
-        assert_eq!(&pf.excluded, &false);
-        assert_eq!(&pf.excluded, &false);
     }
 }

@@ -1,0 +1,209 @@
+syntax = "proto3";
+
+package org.phenopackets.vrs.v1;
+
+option java_multiple_files = true;
+option java_package = "org.ga4gh.vrs.v1";
+
+message Variation {
+   oneof variation {
+      Allele allele = 1;
+      Haplotype haplotype = 2;
+      CopyNumber copy_number = 3;
+      Text text = 4;
+      VariationSet variation_set = 5;
+   }
+}
+
+message MolecularVariation {
+   oneof molecular_variation {
+      Allele allele = 1;
+      Haplotype haplotype = 2;
+   }
+}
+
+message UtilityVariation {
+   oneof utility_variation {
+      Text text = 1;
+      VariationSet variation_set = 2;
+   }
+}
+
+message SystemicVariation {
+   oneof systemic_variation {
+      CopyNumber copy_number = 1;
+   }
+}
+
+message Allele {
+   string _id = 1;
+   oneof location {
+      string curie = 2;
+      ChromosomeLocation chromosome_location = 3;
+      SequenceLocation sequence_location = 4;
+   }
+   oneof state {
+      SequenceState sequence_state = 100 [deprecated=true];
+      LiteralSequenceExpression literal_sequence_expression = 5;
+      DerivedSequenceExpression derived_sequence_expression = 6;
+      RepeatedSequenceExpression repeated_sequence_expression = 7;
+   }
+}
+
+message Haplotype {
+   message Member {
+      oneof value {
+         Allele allele = 1;
+         string curie = 2;
+      }
+   }
+   string _id = 1;
+   repeated Member members = 2;
+}
+
+message Text {
+   string _id = 1;
+   string definition = 2;
+}
+
+message VariationSet {
+   message Member {
+      oneof value {
+         string curie = 1;
+         Allele allele = 2;
+         Haplotype haplotype = 3;
+         CopyNumber copy_number = 4;
+         Text text = 5;
+         VariationSet variation_set = 6;
+      }
+   }
+   string _id = 1;
+   repeated Member members = 2;
+}
+
+message Abundance {
+   oneof abundance {
+      CopyNumber copy_number = 1;
+   }
+}
+
+message CopyNumber {
+   string _id = 1;
+   oneof subject {
+      Allele allele = 2;
+      Haplotype haplotype = 3;
+      Gene gene = 4;
+      LiteralSequenceExpression literal_sequence_expression = 5;
+      DerivedSequenceExpression derived_sequence_expression = 6;
+      RepeatedSequenceExpression repeated_sequence_expression = 7;
+      string curie = 8;
+   }
+   oneof copies {
+      Number number = 9;
+      IndefiniteRange indefinite_range = 10;
+      DefiniteRange definite_range = 11;
+   }
+}
+
+message Location {
+   oneof location {
+      ChromosomeLocation chromosome_location = 1;
+      SequenceLocation sequence_location = 2;
+   }
+}
+
+message ChromosomeLocation {
+   string _id = 1;
+   string species_id = 2;
+   string chr = 3;
+   CytobandInterval interval = 4;
+}
+
+message SequenceLocation {
+   string _id = 1;
+   string sequence_id = 2;
+   oneof interval {
+      SequenceInterval sequence_interval = 3;
+      SimpleInterval simple_interval = 100 [deprecated=true];
+   }
+}
+
+message SequenceInterval {
+   oneof start {
+      Number start_number = 1;
+      IndefiniteRange start_indefinite_range = 2;
+      DefiniteRange start_definite_range = 3;
+   }
+   oneof end {
+      Number end_number = 4;
+      IndefiniteRange end_indefinite_range = 5;
+      DefiniteRange end_definite_range = 6;
+   }
+}
+
+message CytobandInterval {
+   string start = 1;
+   string end = 2;
+}
+
+message SequenceExpression {
+   oneof sequence_expression {
+      LiteralSequenceExpression literal_sequence_expression = 1;
+      DerivedSequenceExpression derived_sequence_expression = 2;
+      RepeatedSequenceExpression repeated_sequence_expression = 3;
+   }
+}
+
+message LiteralSequenceExpression {
+   string sequence = 1;
+}
+
+message DerivedSequenceExpression {
+   SequenceLocation location = 1;
+   bool reverse_complement = 2;
+}
+
+message RepeatedSequenceExpression {
+   oneof seq_expr {
+      LiteralSequenceExpression literal_sequence_expression = 1;
+      DerivedSequenceExpression derived_sequence_expression = 2;
+   }
+   oneof count {
+      Number number = 3;
+      IndefiniteRange indefinite_range = 4;
+      DefiniteRange definite_range = 5;
+   }
+}
+
+message Feature {
+   oneof feature {
+      Gene gene = 1;
+   }
+}
+
+message Gene {
+   string gene_id = 1;
+}
+
+message Number {
+   uint64 value = 1;
+}
+
+message IndefiniteRange {
+   uint64 value = 1;
+   string comparator = 2;
+}
+
+message DefiniteRange {
+   uint64 min = 1;
+   uint64 max = 2;
+}
+
+message SequenceState {
+   string sequence = 1;
+}
+
+message SimpleInterval {
+   uint64 start = 1;
+   uint64 end = 2;
+}

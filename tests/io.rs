@@ -8,7 +8,7 @@ mod v1 {
 
     use super::read_path;
 
-    use phenopackets_dev::schema::v1::{Cohort, Family, Phenopacket};
+    use phenopackets::schema::v1::{Cohort, Family, Phenopacket};
     use prost::Message;
 
     const V2_PHENOPACKET: &str = "data/v1/phenopacket.pb";
@@ -46,7 +46,7 @@ mod v2 {
 
     use super::read_path;
 
-    use phenopackets_dev::schema::v2::{
+    use phenopackets::schema::v2::{
         core::{KaryotypicSex, Sex},
         Cohort, Family, Phenopacket,
     };

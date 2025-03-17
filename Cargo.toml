@@ -1,12 +1,12 @@
 [package]
-name = "phenopackets-dev"
+name = "phenopackets"
 version = "0.2.2"
 authors = ["Daniel Danis", "Daniel Danis <daniel.gordon.danis@protonmail.com>"]
 edition = "2021"
 description = "Rust bindings for Phenopacket Schema"
 readme = "README.md"
-homepage = "https://github.com/ielis/phenopackets-dev"
-repository = "https://github.com/ielis/phenopackets-dev"
+homepage = "https://github.com/P2GX/phenopackets-rust"
+repository = "https://github.com/P2GX/phenopackets-rust"
 license-file = "LICENSE"
 keywords = ["phenopackets", "phenotype", "ontology", "bioinformatics"]
 

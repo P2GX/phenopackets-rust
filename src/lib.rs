@@ -5,13 +5,13 @@
 //! 
 //! ## Examples
 //! 
-//! ### Create a Phenopacket Schema element programatically
+//! ### Create a Phenopacket Schema element programmatically
 //! 
-//! Any struct or enums of the schema can be created by invoking its initializer.
+//! Any struct or enum of the schema can be created by invoking its initializer.
 //! For instance, an [`schema::v2::core::OntologyClass`]:
 //! 
 //! ```rust
-//! use phenopackets_dev::schema::v2::core::OntologyClass;
+//! use phenopackets::schema::v2::core::OntologyClass;
 //! 
 //! let seizure = OntologyClass {
 //!   id: "HP:0001250".into(),
@@ -24,10 +24,10 @@
 //! 
 //! ### Encode/decode into protobuf binary format
 //! 
-//! The schema elements can be encoded or decoded into bytes:
+//! The schema elements can be encoded into or decoded from bytes:
 //! 
 //! ```rust
-//! use phenopackets_dev::schema::v2::core::OntologyClass;
+//! use phenopackets::schema::v2::core::OntologyClass;
 //! use prost::Message;
 //! 
 //! let seizure = OntologyClass {

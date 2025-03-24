@@ -47,6 +47,8 @@
 //! Note, only the protobuf binary format is implemented (no JSON, YAML, ...).
 
 pub(crate) mod generated;
+#[cfg(feature = "serde")]
+mod serde;
 
 // Include the `phenopackets` module, which is generated from the Phenopacket Schema proto files.
 

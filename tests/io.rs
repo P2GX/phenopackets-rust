@@ -116,3 +116,29 @@ fn read_path<T: AsRef<Path>>(path: T) -> Vec<u8> {
 
     buf
 }
+
+#[cfg(feature = "serde")]
+mod serde {
+    use phenopackets::schema::v2::core::OntologyClass;
+    use serde::Serialize;
+    use serde_json::Serializer;
+
+    #[test]
+    fn serialize_ontology_class_to_json() {
+        let seizure = OntologyClass {
+            id: "HP:0001250".into(),
+            label: "Seizure".into(),
+        };
+
+        let mut writer = Vec::new();
+        let mut serializer = Serializer::new(&mut writer);
+
+        seizure.serialize(&mut serializer).expect("Should end well");
+
+        let seizure_as_json = String::from_utf8(writer).expect("Should be valid UTF-8");
+        assert_eq!(
+            seizure_as_json,
+            "{\"id\":\"HP:0001250\",\"label\":\"Seizure\"}"
+        );
+    }
+}

@@ -1,6 +1,8 @@
 use serde::{ser::SerializeStruct, Serialize, Serializer};
 
-use crate::generated::org_phenopackets_schema_v2_core::{Individual, KaryotypicSex, OntologyClass, Sex};
+use crate::generated::org_phenopackets_schema_v2_core::{
+    Individual, KaryotypicSex, OntologyClass, Sex,
+};
 
 impl Serialize for OntologyClass {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
@@ -38,7 +40,6 @@ impl Serialize for OntologyClass {
 // VariantInterpretation
 // AcmgPathogenicityClassification
 // TherapeuticActionability
-
 
 impl Serialize for Individual {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
@@ -86,7 +87,8 @@ impl Serialize for Sex {
 impl Serialize for KaryotypicSex {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
-        S: Serializer {
+        S: Serializer,
+    {
         match *self {
             KaryotypicSex::UnknownKaryotype => serializer.serialize_str("UNKNOWN_KARYOTYPE"),
             KaryotypicSex::Xx => serializer.serialize_str("XX"),

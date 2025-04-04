@@ -119,7 +119,15 @@ fn read_path<T: AsRef<Path>>(path: T) -> Vec<u8> {
 
 #[cfg(feature = "serde")]
 mod serde {
-    use phenopackets::schema::v2::core::OntologyClass;
+    use std::error::Error;
+
+    use phenopackets::schema::v2::{
+        core::{
+            time_element::Element, Age, Disease, ExternalReference, Individual, KaryotypicSex,
+            MetaData, OntologyClass, Resource, Sex, TimeElement,
+        },
+        Phenopacket,
+    };
     use serde::Serialize;
     use serde_json::Serializer;
 
@@ -140,5 +148,76 @@ mod serde {
             seizure_as_json,
             "{\"id\":\"HP:0001250\",\"label\":\"Seizure\"}"
         );
+    }
+
+    /// We start with a phenopacket and we expect to get it back.
+    #[test]
+    fn json_round_trip() -> Result<(), Box<dyn Error>> {
+        // let pp = v2_phenopacket();
+
+        // let mut buf: Vec<u8> = Vec::new();
+
+        // serde_json::to_writer(&mut buf, &pp)?;
+
+        // let decoded: Phenopacket = serde_json::from_reader(&buf[..])?;
+
+        // assert_eq!(pp, decoded);
+        Ok(())
+    }
+
+    /// A V2 phenopacket with (a subset of) information that can be found in `data/v2/phenopacket.json`.
+    fn v2_phenopacket() -> Phenopacket {
+        Phenopacket {
+            id: "comprehensive-phenopacket-id".into(),
+            subject: Some(Individual {
+                id: "14 year-old boy".into(),
+                alternate_ids: vec!["boy".into(), "patient".into(), "proband".into()],
+                date_of_birth: Some(
+                    "1970-01-02T10:17:36.000000100Z"
+                        .parse()
+                        .expect("Timestamp should be well formatted"),
+                ),
+                time_at_last_encounter: Some(TimeElement {
+                    element: Some(Element::Age(Age {
+                        iso8601duration: "P14Y".into(),
+                    })),
+                }),
+                vital_status: None,
+                sex: Sex::Male.into(),
+                karyotypic_sex: KaryotypicSex::Xy.into(),
+                gender: None,
+                taxonomy: Some(OntologyClass {
+                    id: "NCBITaxon:9606".into(),
+                    label: "homo sapiens".into(),
+                }),
+            }),
+            phenotypic_features: vec![],
+            measurements: vec![],
+            biosamples: vec![],
+            interpretations: vec![],
+            diseases: vec![
+                Disease { term: Some(OntologyClass { id: "OMIM:101600".into(), label: "PFEIFFER SYNDROME".into() }), excluded: false, onset: Some(TimeElement{
+                    element: Some(Element::OntologyClass(OntologyClass { id: "HP:0003577".into(), label: "Congenital onset".into() }))
+                }), resolution: None, disease_stage: vec![], clinical_tnm_finding: vec![], primary_site: None, laterality: None }
+            ],
+            medical_actions: vec![],
+            files: vec![],
+            meta_data: Some(MetaData {
+                created: Some("2022-10-03T16:39:04.000123456Z".parse().expect("Timestamp should be well formatted")),
+                created_by: "Peter R.".into(),
+                submitted_by: "PhenopacketLab".into(),
+                resources: vec![
+                    Resource { id: "hp".into(), name: "human phenotype ontology".into(), url: "http://purl.obolibrary.org/obo/hp.owl".into(), version: "2018-03-08".into(), namespace_prefix: "HP".into(), iri_prefix: "http://purl.obolibrary.org/obo/HP_".into() },
+                    Resource { id: "geno".into(), name: "Genotype Ontology".into(), url: "http://purl.obolibrary.org/obo/geno.owl".into(), version: "19-03-2018".into(), namespace_prefix: "GENO".into(), iri_prefix: "http://purl.obolibrary.org/obo/GENO_".into() },
+                    Resource { id: "pubmed".into(), name: "PubMed".into(), url: "".into(), version: "".into(), namespace_prefix: "PMID".into(), iri_prefix: "https://www.ncbi.nlm.nih.gov/pubmed/".into() },
+                    Resource { id: "ncit".into(), name: "NCI Thesaurus".into(), url: "http://purl.obolibrary.org/obo/ncit.owl".into(), version: "20-03-2020".into(), namespace_prefix: "NCIT".into(), iri_prefix: "http://purl.obolibrary.org/obo/NCIT_".into() },
+                ],
+                updates: vec![],
+                phenopacket_schema_version: "2.0.0".into(),
+                external_references: vec![
+                    ExternalReference { id: "PMID:30808312".into(), reference: "".into(), description: "COL6A1 mutation leading to Bethlem myopathy with recurrent hematuria: a case report.".into() }
+                ],
+            }),
+        }
     }
 }

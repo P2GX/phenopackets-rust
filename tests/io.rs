@@ -4,6 +4,7 @@ use std::{
     path::Path,
 };
 
+// TODO: remove and only keep `src/tests/protobuf`.
 mod v1 {
 
     use super::read_path;
@@ -40,6 +41,7 @@ mod v1 {
     }
 }
 
+// TODO: remove and only keep `src/tests/protobuf`.
 mod v2 {
 
     use std::str::FromStr;
@@ -117,6 +119,7 @@ fn read_path<T: AsRef<Path>>(path: T) -> Vec<u8> {
     buf
 }
 
+// TODO: remove and only keep `src/tests/serde`.
 #[cfg(feature = "serde")]
 mod serde {
     use std::error::Error;
@@ -167,6 +170,7 @@ mod serde {
 
     /// A V2 phenopacket with (a subset of) information that can be found in `data/v2/phenopacket.json`.
     fn v2_phenopacket() -> Phenopacket {
+        // TODO: remove
         Phenopacket {
             id: "comprehensive-phenopacket-id".into(),
             subject: Some(Individual {

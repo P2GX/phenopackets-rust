@@ -5,9 +5,9 @@ use std::{
 };
 
 pub(super) mod examples;
+mod protobuf;
 #[cfg(feature = "serde")]
 mod serde;
-mod protobuf;
 
 fn read_path<T>(path: T) -> Vec<u8>
 where

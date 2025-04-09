@@ -1,9 +1,6 @@
 //! Example Phenopacket Schema elements.
-use crate::generated::org_phenopackets_schema_v2_core::OntologyClass;
-
 pub mod v1 {
     use crate::schema::v1::Phenopacket;
-
 
     pub fn phenopacket() -> Phenopacket {
         todo!()
@@ -21,14 +18,12 @@ pub mod v2 {
                 time_element::Element,
                 AcmgPathogenicityClassification, Age, Biosample, Diagnosis, Disease, Evidence,
                 ExternalReference, File, GenomicInterpretation, Individual, Interpretation,
-                KaryotypicSex, MetaData, PhenotypicFeature, Resource, Sex,
+                KaryotypicSex, MetaData, OntologyClass, PhenotypicFeature, Resource, Sex,
                 TherapeuticActionability, TimeElement, VariantInterpretation,
             },
         },
         schema::v2::Phenopacket,
     };
-
-    use super::ontology_class;
 
     /// A phenopacket corresponding to one at `data/v2/phenopacket.json`.
     ///
@@ -45,11 +40,7 @@ pub mod v2 {
                         .parse()
                         .expect("Timestamp should be well formatted"),
                 ),
-                time_at_last_encounter: Some(TimeElement {
-                    element: Some(Element::Age(Age {
-                        iso8601duration: "P14Y".into(),
-                    })),
-                }),
+                time_at_last_encounter: Some(time_element_age("P14Y")),
                 vital_status: None,
                 sex: Sex::Male.into(),
                 karyotypic_sex: KaryotypicSex::Xy.into(),
@@ -64,20 +55,13 @@ pub mod v2 {
                     severity: None,
                     modifiers: vec![],
                     onset: Some(
-                        TimeElement {
-                            element: Some(Element::OntologyClass(ontology_class("HP:0011461", "Fetal onset"))) 
-                        }
-                    ),
+                        time_element_ontology_class("HP:0011461", "Fetal onset")),
                     resolution: None,
                     evidence: vec![
                         Evidence {
                             evidence_code: Some(ontology_class("ECO:0000033", "author statement supported by traceable reference")),
                             reference: Some(
-                                ExternalReference {
-                                    id: "PMID:30808312".into(),
-                                    reference: "".into(),
-                                    description: "COL6A1 mutation leading to Bethlem myopathy with recurrent hematuria: a case report.".into()
-                                }
+                                external_reference("PMID:30808312", "", "COL6A1 mutation leading to Bethlem myopathy with recurrent hematuria: a case report.")
                             )
                         }
                     ],
@@ -94,11 +78,7 @@ pub mod v2 {
                         Evidence {
                             evidence_code: Some(ontology_class("ECO:0000033", "author statement supported by traceable reference")),
                             reference: Some(
-                                ExternalReference {
-                                    id: "PMID:30808312".into(),
-                                    reference: "".into(),
-                                    description: "COL6A1 mutation leading to Bethlem myopathy with recurrent hematuria: a case report.".into()
-                                }
+                                external_reference("PMID:30808312", "", "COL6A1 mutation leading to Bethlem myopathy with recurrent hematuria: a case report.")
                             )
                         }
                     ],
@@ -111,17 +91,13 @@ pub mod v2 {
                     modifiers: vec![
                         ontology_class("HP:0031796", "Recurrent")
                     ],
-                    onset: Some(TimeElement { element: Some(Element::Age(Age{iso8601duration: "P14Y".into()}))}),
+                    onset: Some(time_element_age("P14Y")),
                     resolution: None,
                     evidence: vec![
                         Evidence {
                             evidence_code: Some(ontology_class("ECO:0000033", "author statement supported by traceable reference")),
                             reference: Some(
-                                ExternalReference {
-                                    id: "PMID:30808312".into(),
-                                    reference: "".into(),
-                                    description: "COL6A1 mutation leading to Bethlem myopathy with recurrent hematuria: a case report.".into()
-                                }
+                                external_reference("PMID:30808312", "", "COL6A1 mutation leading to Bethlem myopathy with recurrent hematuria: a case report.")
                             )
                         }
                     ],
@@ -132,7 +108,7 @@ pub mod v2 {
                     excluded: false,
                     severity: Some(ontology_class("HP:0012825", "Mild")),
                     modifiers: vec![],
-                    onset: Some(TimeElement { element: Some(Element::OntologyClass(ontology_class("HP:0011463", "Childhood onset"))) }),
+                    onset: Some(time_element_ontology_class("HP:0011463", "Childhood onset")),
                     resolution: None,
                     evidence: vec![],
                 },
@@ -149,7 +125,7 @@ pub mod v2 {
                     phenotypic_features: vec![],
                     measurements: vec![],
                     taxonomy: Some(ontology_class("NCBITaxon:9606", "homo sapiens")),
-                    time_of_collection: Some(TimeElement { element: Some(Element::Age(Age{iso8601duration: "P14Y".into()})) }),
+                    time_of_collection: Some(time_element_age("P14Y")),
                     histological_diagnosis: Some(ontology_class("NCIT:C38757", "Negative Finding")),
                     tumor_progression: Some(ontology_class("NCIT:C3677", "Benign Neoplasm")),
                     tumor_grade: Some(ontology_class("NCIT:C28076", "Disease Grade Qualifier")),
@@ -209,9 +185,7 @@ pub mod v2 {
                 Disease {
                     term: Some(ontology_class("OMIM:101600", "PFEIFFER SYNDROME")),
                     excluded: false,
-                    onset: Some(TimeElement{
-                        element: Some(Element::OntologyClass(ontology_class("HP:0003577", "Congenital onset")))
-                    }),
+                    onset: Some(time_element_ontology_class("HP:0003577", "Congenital onset")),
                     resolution: None,
                     disease_stage: vec![],
                     clinical_tnm_finding: vec![],
@@ -264,24 +238,53 @@ pub mod v2 {
                         namespace_prefix: "NCIT".into(),
                         iri_prefix: "http://purl.obolibrary.org/obo/NCIT_".into(),
                     },
+                    // TODO: add
+                    // - OMIM
+                    // - EFO
+                    // - ECO
+                    // - NCBITaxon
+                    // - UBERON
+                    
                 ],
                 updates: vec![],
                 phenopacket_schema_version: "2.0.0".into(),
                 external_references: vec![
-                    ExternalReference {
-                        id: "PMID:30808312".into(),
-                        reference: "".into(),
-                        description: "COL6A1 mutation leading to Bethlem myopathy with recurrent hematuria: a case report.".into(),
-                    }
+                    external_reference("PMID:30808312", "", "COL6A1 mutation leading to Bethlem myopathy with recurrent hematuria: a case report.")
                 ],
             }),
         }
     }
-}
 
-fn ontology_class(id: &str, label: &str) -> OntologyClass {
-    OntologyClass {
-        id: id.into(),
-        label: label.into(),
+    fn ontology_class(id: &str, label: &str) -> OntologyClass {
+        OntologyClass {
+            id: id.into(),
+            label: label.into(),
+        }
+    }
+
+    fn external_reference(
+        id: impl ToString,
+        reference: impl ToString,
+        description: impl ToString,
+    ) -> ExternalReference {
+        ExternalReference {
+            id: id.to_string(),
+            reference: reference.to_string(),
+            description: description.to_string(),
+        }
+    }
+
+    fn time_element_age(iso8601duration: impl ToString) -> TimeElement {
+        TimeElement {
+            element: Some(Element::Age(Age {
+                iso8601duration: iso8601duration.to_string(),
+            })),
+        }
+    }
+
+    fn time_element_ontology_class(id: &str, label: &str) -> TimeElement {
+        TimeElement {
+            element: Some(Element::OntologyClass(ontology_class(id, label))),
+        }
     }
 }

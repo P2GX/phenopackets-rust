@@ -4,17 +4,7 @@ use crate::generated::org_phenopackets_schema_v2_core::{
     Individual, KaryotypicSex, OntologyClass, Sex,
 };
 
-impl Serialize for OntologyClass {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let mut oc = serializer.serialize_struct("OntologyClass", 2)?;
-        oc.serialize_field("id", self.id.as_str())?;
-        oc.serialize_field("label", self.label.as_str())?;
-        oc.end()
-    }
-}
+
 
 // ExternalReference
 // Evidence

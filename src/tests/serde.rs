@@ -1,10 +1,7 @@
 mod v2 {
     use std::error::Error;
 
-    use crate::{
-        schema::v2::Phenopacket,
-        tests::{examples::v2, read_path},
-    };
+    use crate::{schema::v2::Phenopacket, tests::examples::v2};
 
     #[test]
     fn phenopacket_json_round_trip() -> Result<(), Box<dyn Error>> {
@@ -22,7 +19,7 @@ mod v2 {
     #[test]
     fn decode_phenopacket() -> Result<(), Box<dyn Error>> {
         // let fpath_pp = "data/v2/phenopacket.json";
-        // let bytes = read_path(fpath_pp);
+        // let bytes = std::fs::read(fpath_pp).expect("The test file should be in the repo");
 
         // let actual: Phenopacket = serde_json::from_reader(&bytes[..])?;
 
@@ -32,4 +29,6 @@ mod v2 {
 
         Ok(())
     }
+
+    // TODO: cohort, family
 }

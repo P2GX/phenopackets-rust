@@ -224,21 +224,13 @@
     "subject": {
       "id": "MOTHER",
       "dateOfBirth": "1970-01-01T00:00:00Z",
-      "timeAtLastEncounter": {
-      },
-      "sex": "FEMALE",
-      "taxonomy": {
-      }
+      "sex": "FEMALE"
     }
   }, {
     "subject": {
       "id": "FATHER",
       "dateOfBirth": "1970-01-01T00:00:00Z",
-      "timeAtLastEncounter": {
-      },
-      "sex": "MALE",
-      "taxonomy": {
-      }
+      "sex": "MALE"
     }
   }],
   "pedigree": {

@@ -22,7 +22,7 @@ pub mod v2 {
                 TherapeuticActionability, TimeElement, VariantInterpretation,
             },
         },
-        schema::v2::Phenopacket,
+        schema::v2::{Cohort, Family, Phenopacket},
     };
 
     /// A phenopacket corresponding to one at `data/v2/phenopacket.json`.
@@ -197,7 +197,109 @@ pub mod v2 {
             files: vec![
                 File {
                     uri: "file://data/genomes/P000001C".into(),
-                    individual_to_file_identifiers: [("14 year-old boy", "P000001C")].into_iter().map(|(k, v)| (k.into(), v.into())).collect(),
+                    individual_to_file_identifiers: [
+                        ("14 year-old boy", "P000001C"),
+                    ].into_iter().map(|(k, v)| (k.into(), v.into())).collect(),
+                    file_attributes: [
+                        ("genomeAssembly", "GRCh38.p13"),
+                        ("fileFormat", "vcf"),
+                        ("description", "Whole genome sequencing VCF output"),
+                    ].into_iter().map(|(k, v)| (k.into(), v.into())).collect(),
+                }
+            ],
+            meta_data: Some(MetaData {
+                created: Some("2022-10-03T16:39:04.000123456Z".parse().expect("Timestamp should be well formatted")),
+                created_by: "Peter R.".into(),
+                submitted_by: "PhenopacketLab".into(),
+                resources: vec![
+                    hpo_resource(),
+                    geno_resource(),
+                    pubmed_resource(),
+                    ncit_resource(),
+                    // TODO: add
+                    // - OMIM
+                    // - EFO
+                    // - ECO
+                    // - NCBITaxon
+                    // - UBERON
+                ],
+                updates: vec![],
+                phenopacket_schema_version: "2.0.0".into(),
+                external_references: vec![
+                    external_reference("PMID:30808312", "", "COL6A1 mutation leading to Bethlem myopathy with recurrent hematuria: a case report.")
+                ],
+            }),
+        }
+    }
+
+    pub fn family() -> Family {
+        // TODO - implement
+        todo!()
+    }
+
+    pub fn cohort() -> Cohort {
+        Cohort {
+            id: "comprehensive-cohort-id".into(),
+            description: "A description of the example cohort.".into(),
+            members: vec![
+                phenopacket(),
+                Phenopacket {
+                    id: "".into(),
+                    subject: Some(Individual {
+                        id: "MOTHER".into(),
+                        alternate_ids: vec![],
+                        date_of_birth: Some(
+                            "1970-01-01T00:00:00Z"
+                                .parse()
+                                .expect("Timestamp should be well formatted"),
+                        ),
+                        time_at_last_encounter: None,
+                        vital_status: None,
+                        sex: Sex::Female.into(),
+                        karyotypic_sex: KaryotypicSex::UnknownKaryotype.into(),
+                        gender: None,
+                        taxonomy: None,
+                    }),
+                    phenotypic_features: vec![],
+                    measurements: vec![],
+                    biosamples: vec![],
+                    interpretations: vec![],
+                    diseases: vec![],
+                    medical_actions: vec![],
+                    files: vec![],
+                    meta_data: None,
+                },
+                Phenopacket {
+                    id: "".into(),
+                    subject: Some(Individual {
+                        id: "FATHER".into(),
+                        alternate_ids: vec![],
+                        date_of_birth: Some(
+                            "1970-01-01T00:00:00Z"
+                                .parse()
+                                .expect("Timestamp should be well formatted"),
+                        ),
+                        time_at_last_encounter: None,
+                        vital_status: None,
+                        sex: Sex::Male.into(),
+                        karyotypic_sex: KaryotypicSex::UnknownKaryotype.into(),
+                        gender: None,
+                        taxonomy: None,
+                    }),
+                    phenotypic_features: vec![],
+                    measurements: vec![],
+                    biosamples: vec![],
+                    interpretations: vec![],
+                    diseases: vec![],
+                    medical_actions: vec![],
+                    files: vec![],
+                    meta_data: None,
+                }
+            ],
+            files: vec![
+                File {
+                    uri: "file://data/genomes/FAM000001".into(),
+                    individual_to_file_identifiers: [("14 year-old boy", "P000001C"), ("MOTHER", "P000001M"), ("FATHER", "P000001F")].into_iter().map(|(k, v)| (k.into(), v.into())).collect(),
                     file_attributes: [("genomeAssembly", "GRCh38.p13"), ("fileFormat", "vcf"), ("description", "Whole genome sequencing VCF output")].into_iter().map(|(k, v)| (k.into(), v.into())).collect(),
                 }
             ],
@@ -206,45 +308,16 @@ pub mod v2 {
                 created_by: "Peter R.".into(),
                 submitted_by: "PhenopacketLab".into(),
                 resources: vec![
-                    Resource {
-                        id: "hp".into(),
-                        name: "human phenotype ontology".into(),
-                        url: "http://purl.obolibrary.org/obo/hp.owl".into(),
-                        version: "2018-03-08".into(),
-                        namespace_prefix: "HP".into(),
-                        iri_prefix: "http://purl.obolibrary.org/obo/HP_".into(),
-                    },
-                    Resource {
-                        id: "geno".into(),
-                        name: "Genotype Ontology".into(),
-                        url: "http://purl.obolibrary.org/obo/geno.owl".into(),
-                        version: "19-03-2018".into(),
-                        namespace_prefix: "GENO".into(),
-                        iri_prefix: "http://purl.obolibrary.org/obo/GENO_".into(),
-                    },
-                    Resource {
-                        id: "pubmed".into(),
-                        name: "PubMed".into(),
-                        url: "".into(),
-                        version: "".into(),
-                        namespace_prefix: "PMID".into(),
-                        iri_prefix: "https://www.ncbi.nlm.nih.gov/pubmed/".into(),
-                    },
-                    Resource {
-                        id: "ncit".into(),
-                        name: "NCI Thesaurus".into(),
-                        url: "http://purl.obolibrary.org/obo/ncit.owl".into(),
-                        version: "20-03-2020".into(),
-                        namespace_prefix: "NCIT".into(),
-                        iri_prefix: "http://purl.obolibrary.org/obo/NCIT_".into(),
-                    },
+                    hpo_resource(),
+                    geno_resource(),
+                    pubmed_resource(),
+                    ncit_resource(),
                     // TODO: add
                     // - OMIM
                     // - EFO
                     // - ECO
                     // - NCBITaxon
                     // - UBERON
-                    
                 ],
                 updates: vec![],
                 phenopacket_schema_version: "2.0.0".into(),
@@ -285,6 +358,68 @@ pub mod v2 {
     fn time_element_ontology_class(id: &str, label: &str) -> TimeElement {
         TimeElement {
             element: Some(Element::OntologyClass(ontology_class(id, label))),
+        }
+    }
+
+    fn hpo_resource() -> Resource {
+        resource(
+            "hp",
+            "human phenotype ontology",
+            "http://purl.obolibrary.org/obo/hp.owl",
+            "2018-03-08",
+            "HP",
+            "http://purl.obolibrary.org/obo/HP_",
+        )
+    }
+
+    fn geno_resource() -> Resource {
+        Resource {
+            id: "geno".into(),
+            name: "Genotype Ontology".into(),
+            url: "http://purl.obolibrary.org/obo/geno.owl".into(),
+            version: "19-03-2018".into(),
+            namespace_prefix: "GENO".into(),
+            iri_prefix: "http://purl.obolibrary.org/obo/GENO_".into(),
+        }
+    }
+
+    fn pubmed_resource() -> Resource {
+        resource(
+            "pubmed",
+            "PubMed",
+            "",
+            "",
+            "PMID",
+            "https://www.ncbi.nlm.nih.gov/pubmed/",
+        )
+    }
+
+    fn ncit_resource() -> Resource {
+        resource(
+            "ncit",
+            "NCI Thesaurus",
+            "http://purl.obolibrary.org/obo/ncit.owl",
+            "20-03-2020",
+            "NCIT",
+            "http://purl.obolibrary.org/obo/NCIT_",
+        )
+    }
+
+    fn resource(
+        id: impl ToString,
+        name: impl ToString,
+        url: impl ToString,
+        version: impl ToString,
+        namespace_prefix: impl ToString,
+        iri_prefix: impl ToString,
+    ) -> Resource {
+        Resource {
+            id: id.to_string(),
+            name: name.to_string(),
+            url: url.to_string(),
+            version: version.to_string(),
+            namespace_prefix: namespace_prefix.to_string(),
+            iri_prefix: iri_prefix.to_string(),
         }
     }
 }

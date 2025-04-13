@@ -1,3 +1,5 @@
+/// Test de-/serialization of top-level elements of `v2` Phenopacket Schema
+/// from/to JSON format.
 mod v2 {
     use std::error::Error;
 

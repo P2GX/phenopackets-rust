@@ -15,10 +15,11 @@ pub mod v2 {
             org_phenopackets_schema_v2_core::{
                 genomic_interpretation::{Call, InterpretationStatus},
                 interpretation::ProgressStatus,
+                pedigree::{person::AffectedStatus, Person},
                 time_element::Element,
                 AcmgPathogenicityClassification, Age, Biosample, Diagnosis, Disease, Evidence,
                 ExternalReference, File, GenomicInterpretation, Individual, Interpretation,
-                KaryotypicSex, MetaData, OntologyClass, PhenotypicFeature, Resource, Sex,
+                KaryotypicSex, MetaData, OntologyClass, Pedigree, PhenotypicFeature, Resource, Sex,
                 TherapeuticActionability, TimeElement, VariantInterpretation,
             },
         },
@@ -233,8 +234,136 @@ pub mod v2 {
     }
 
     pub fn family() -> Family {
-        // TODO - implement
-        todo!()
+        Family {
+            id: "comprehensive-family-id".into(),
+            proband: Some(phenopacket()),
+            relatives: vec![
+                Phenopacket {
+                    id: "mother-phenopacket-id".into(),
+                    subject: Some(Individual {
+                        id: "MOTHER".into(),
+                        alternate_ids: vec![],
+                        date_of_birth: Some(
+                            "1970-01-01T00:00:00Z".parse().expect("Timestamp should be well formatted")
+                        ),
+                        time_at_last_encounter: None,
+                        vital_status: None,
+                        sex: Sex::Female.into(),
+                        karyotypic_sex: KaryotypicSex::UnknownKaryotype.into(),
+                        gender: None,
+                        taxonomy: None,
+                    }),
+                    phenotypic_features: vec![],
+                    measurements: vec![],
+                    biosamples: vec![],
+                    interpretations: vec![],
+                    diseases: vec![],
+                    medical_actions: vec![],
+                    files: vec![],
+                    meta_data: Some(MetaData {
+                        created: Some("2022-10-03T16:39:04.000123456Z".parse().expect("Timestamp should be well formatted")),
+                        created_by: "Peter R.".into(),
+                        submitted_by: "".into(),
+                        resources: vec![],
+                        updates: vec![],
+                        phenopacket_schema_version: "2.0.0".into(),
+                        external_references: vec![]
+                    })
+                },
+                Phenopacket {
+                    id: "father-phenopacket-id".into(),
+                    subject: Some(Individual {
+                        id: "FATHER".into(),
+                        alternate_ids: vec![],
+                        date_of_birth: Some(
+                            "1970-01-01T00:00:00Z".parse().expect("Timestamp should be well formatted")
+                        ),
+                        time_at_last_encounter: None,
+                        vital_status: None,
+                        sex: Sex::Male.into(),
+                        karyotypic_sex: KaryotypicSex::UnknownKaryotype.into(),
+                        gender: None,
+                        taxonomy: None,
+                    }),
+                    phenotypic_features: vec![],
+                    measurements: vec![],
+                    biosamples: vec![],
+                    interpretations: vec![],
+                    diseases: vec![],
+                    medical_actions: vec![],
+                    files: vec![],
+                    meta_data: Some(MetaData {
+                        created: Some("2022-10-03T16:39:04.000123456Z".parse().expect("Timestamp should be well formatted")),
+                        created_by: "Peter R.".into(),
+                        submitted_by: "".into(),
+                        resources: vec![],
+                        updates: vec![],
+                        phenopacket_schema_version: "2.0.0".into(),
+                        external_references: vec![]
+                    })
+                },
+            ],
+            consanguinous_parents: true,
+            pedigree: Some(
+                Pedigree {
+                    persons: vec![
+                        Person {
+                            family_id: "".into(),
+                            individual_id: "14 year-old boy".into(),
+                            paternal_id: "FATHER".into(),
+                            maternal_id: "MOTHER".into(),
+                            sex: Sex::Male.into(),
+                            affected_status: AffectedStatus::Affected.into(),
+                        },
+                        Person {
+                            family_id: "".into(),
+                            individual_id: "MOTHER".into(),
+                            paternal_id: "".into(),
+                            maternal_id: "".into(),
+                            sex: Sex::Female.into(),
+                            affected_status: AffectedStatus::Unaffected.into(),
+                        },
+                        Person {
+                            family_id: "".into(),
+                            individual_id: "FATHER".into(),
+                            paternal_id: "".into(),
+                            maternal_id: "".into(),
+                            sex: Sex::Male.into(),
+                            affected_status: AffectedStatus::Unaffected.into(),
+                        }
+                    ]
+                }
+            ),
+            files: vec![
+                File {
+                    uri: "file://data/genomes/FAM000001".into(),
+                    individual_to_file_identifiers: [("14 year-old boy", "P000001C"), ("MOTHER", "P000001M"), ("FATHER", "P000001F")].into_iter().map(|(k, v)| (k.into(), v.into())).collect(),
+                    file_attributes: [("genomeAssembly", "GRCh38.p13"), ("fileFormat", "vcf"), ("description", "Whole genome sequencing VCF output")].into_iter().map(|(k, v)| (k.into(), v.into())).collect(),
+                }
+            ],
+            meta_data: Some(MetaData {
+                created: Some("2022-10-03T16:39:04.000123456Z".parse().expect("Timestamp should be well formatted")),
+                created_by: "Peter R.".into(),
+                submitted_by: "PhenopacketLab".into(),
+                resources: vec![
+                    hpo_resource(),
+                    geno_resource(),
+                    pubmed_resource(),
+                    ncit_resource(),
+                    // TODO: add
+                    // - OMIM
+                    // - EFO
+                    // - ECO
+                    // - NCBITaxon
+                    // - UBERON
+                ],
+                updates: vec![],
+                phenopacket_schema_version: "2.0.0".into(),
+                external_references: vec![
+                    external_reference("PMID:30808312", "", "COL6A1 mutation leading to Bethlem myopathy with recurrent hematuria: a case report.")
+                ],
+            }),
+        }
     }
 
     pub fn cohort() -> Cohort {

@@ -75,14 +75,21 @@ mod v2 {
     }
 
     #[test]
-    #[ignore = "Family is not yet implemented"]
     fn decode_family() {
         let buf = read(V2_FAMILY).unwrap();
         let actual = Family::decode(&*buf).unwrap();
 
         let expected = v2::family();
 
-        assert_eq!(&actual.id, "comprehensive-family-id");
+        assert_eq!(actual, expected);
+
+        // assert_eq!(actual.id, expected.id);
+        // assert_eq!(actual.proband, expected.proband);
+        // assert_eq!(actual.relatives, expected.relatives);
+        // assert_eq!(actual.consanguinous_parents, expected.consanguinous_parents);
+        // assert_eq!(actual.pedigree, expected.pedigree);
+        // assert_eq!(actual.files, expected.files);
+        // assert_eq!(actual.meta_data, expected.meta_data);
     }
 
     #[test]
@@ -100,4 +107,6 @@ mod v2 {
         // assert_eq!(actual.files, expected.files);
         // assert_eq!(actual.meta_data, expected.meta_data);
     }
+
+    // TODO: test we do not serialize an empty string, e.g. `PhenotypicFeature::description`.
 }

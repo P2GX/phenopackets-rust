@@ -1,12 +1,11 @@
 //! Example Phenopacket Schema elements.
-pub mod v1 {
-    use crate::schema::v1::Phenopacket;
 
-    pub fn phenopacket() -> Phenopacket {
-        todo!()
-    }
-}
+/// Example top-level elements of `v1` Phenopacket Schema.
+///
+/// No elements available at the moment.
+pub mod v1 {}
 
+/// Example top-level elements of `v2` Phenopacket Schema.
 pub mod v2 {
 
     use crate::{
@@ -26,7 +25,7 @@ pub mod v2 {
         schema::v2::{Cohort, Family, Phenopacket},
     };
 
-    /// A phenopacket corresponding to one at `data/v2/phenopacket.json`.
+    /// A phenopacket corresponding to one at `data/v2/phenopacket.pb` and `data/v2/phenopacket.json`.
     ///
     /// The content MUST correspond to file's contents at all times.
     /// If one of them changes, the other MUST change too!
@@ -233,6 +232,10 @@ pub mod v2 {
         }
     }
 
+    /// A family corresponding to one at `data/v2/family.pb` and `data/v2/family.json`.
+    ///
+    /// The content MUST correspond to file's contents at all times.
+    /// If one of them changes, the other MUST change too!
     pub fn family() -> Family {
         Family {
             id: "comprehensive-family-id".into(),
@@ -366,6 +369,10 @@ pub mod v2 {
         }
     }
 
+    /// A cohort corresponding to one at `data/v2/cohort.pb` and `data/v2/cohort.json`.
+    ///
+    /// The content MUST correspond to file's contents at all times.
+    /// If one of them changes, the other MUST change too!
     pub fn cohort() -> Cohort {
         Cohort {
             id: "comprehensive-cohort-id".into(),

@@ -37,6 +37,32 @@ impl Serialize for Individual {
     }
 }
 
+#[cfg(test)]
+mod test_individual {
+    use crate::generated::org_phenopackets_schema_v2_core::{Individual, KaryotypicSex, Sex};
+
+    /// A minimal individual will serialize the `id`
+    /// and the enum fields (`sex` and `karyotypicSex`).
+    #[test]
+    fn serialize_individual_minimal_fields() {
+        let individual = Individual {
+            id: "".into(),
+            alternate_ids: vec![],
+            date_of_birth: None,
+            time_at_last_encounter: None,
+            vital_status: None,
+            sex: Sex::UnknownSex.into(),
+            karyotypic_sex: KaryotypicSex::UnknownKaryotype.into(),
+            gender: None,
+            taxonomy: None,
+        };
+
+        let actual = serde_json::to_string(&individual).expect("Expecting no serialization issues");
+
+        assert_eq!(actual, r#"{"id":"","sex":"UNKNOWN_SEX","karyotypicSex":"UNKNOWN_KARYOTYPE"}"#)
+    }
+}
+
 impl Serialize for TimeElement {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -172,6 +198,30 @@ impl Serialize for MetaData {
         }
 
         ser.end()
+    }
+}
+
+#[cfg(test)]
+mod test_metadata {
+    use crate::generated::org_phenopackets_schema_v2_core::MetaData;
+
+    /// Expecting to see required elements even if they are empty.
+    /// but not `resources`, if empty.
+    #[test]
+    fn serialize_metadata() {
+        let meta = MetaData {
+            created: Some("2019-07-21T00:25:54.662Z".parse().expect("Timestamp should be well formatted")),
+            created_by: "Peter R.".into(),
+            submitted_by: "".into(),
+            resources: vec![],
+            updates: vec![],
+            phenopacket_schema_version: "".into(),
+            external_references: vec![],
+        };
+
+        let actual = serde_json::to_string(&meta).expect("Expecting no serialization issues");
+
+        assert_eq!(actual, r#"{"created":"2019-07-21T00:25:54.662Z","createdBy":"Peter R.","phenopacketSchemaVersion":""}"#)
     }
 }
 

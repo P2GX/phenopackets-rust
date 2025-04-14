@@ -3,7 +3,7 @@
 mod v2 {
     use std::error::Error;
 
-    use crate::{schema::v2::Phenopacket, tests::examples::v2};
+    use crate::tests::examples::v2;
 
     #[test]
     fn phenopacket_json_round_trip() -> Result<(), Box<dyn Error>> {
@@ -32,5 +32,15 @@ mod v2 {
         Ok(())
     }
 
-    // TODO: cohort, family
+    #[test]
+    #[ignore = "for running manually only"]
+    fn encode_phenopacket() -> Result<(), Box<dyn Error>> {
+        let pp = v2::phenopacket();
+
+        let val = serde_json::to_string_pretty(&pp)?;
+        std::fs::write("pp.json", &val)?;
+
+        Ok(())
+    }
+    
 }

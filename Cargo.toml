@@ -14,7 +14,7 @@ keywords = ["phenopackets", "phenotype", "ontology", "bioinformatics"]
 maintenance = { status = "experimental" }
 
 [features]
-serde = ["dep:serde"]
+serde = ["serde/derive"]
 
 [dependencies]
 prost = "0.13"

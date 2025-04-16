@@ -1,67 +1,99 @@
-use serde::{ser::SerializeStruct, Serialize, Serializer};
-
-use crate::generated::org_phenopackets_schema_v2_core::{
-    time_element::Element, Individual, MetaData, TimeElement, TimeInterval, Update,
+use prost_types::Timestamp;
+use serde::{
+    de::{self, Visitor},
+    ser::SerializeStruct,
+    Deserialize, Deserializer, Serialize, Serializer,
 };
 
-impl Serialize for Individual {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+use crate::generated::{
+    org_ga4gh_vrsatile_v1::MoleculeContext,
+    org_phenopackets_schema_v2_core::{
+        genomic_interpretation::InterpretationStatus, interpretation::ProgressStatus,
+        pedigree::person::AffectedStatus, therapeutic_regimen::RegimenStatus,
+        time_element::Element, vital_status::Status, AcmgPathogenicityClassification, DrugType,
+        KaryotypicSex, Sex, TherapeuticActionability, TimeElement,
+    },
+};
+
+pub(super) struct TimestampOptionVisitor;
+impl<'de> Visitor<'de> for TimestampOptionVisitor {
+    type Value = Option<Timestamp>;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        formatter.write_str("`str` with RFC3339 timestamp")
+    }
+
+    fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
     where
-        S: Serializer,
+        E: de::Error,
     {
-        let mut indi = serializer.serialize_struct("Individual", 2)?;
-        indi.serialize_field("id", &self.id)?;
-        if !self.alternate_ids.is_empty() {
-            indi.serialize_field("alternateIds", &self.alternate_ids)?;
+        match v.parse() {
+            Ok(ts) => Ok(Some(ts)),
+            Err(e) => Err(de::Error::custom(e.to_string())),
         }
-        if let Some(dob) = self.date_of_birth.as_ref() {
-            indi.serialize_field("dateOfBirth", &dob.to_string())?;
-        }
-        if let Some(tale) = self.time_at_last_encounter.as_ref() {
-            indi.serialize_field("timeAtLastEncounter", tale)?;
-        }
-        if let Some(vital_status) = self.vital_status.as_ref() {
-            indi.serialize_field("vitalStatus", vital_status)?;
-        }
+    }
 
-        indi.serialize_field("sex", &self.sex().as_str_name())?;
-        indi.serialize_field("karyotypicSex", &self.karyotypic_sex().as_str_name())?;
-        if let Some(gender) = self.gender.as_ref() {
-            indi.serialize_field("gender", gender)?;
-        }
-        if let Some(taxonomy) = self.taxonomy.as_ref() {
-            indi.serialize_field("taxonomy", taxonomy)?;
-        }
-
-        indi.end()
+    fn visit_none<E>(self) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        Ok(None)
     }
 }
 
-#[cfg(test)]
-mod test_individual {
-    use crate::generated::org_phenopackets_schema_v2_core::{Individual, KaryotypicSex, Sex};
+// #[cfg(test)]
+// mod test_time_interval {
+//     use prost_types::Timestamp;
 
-    /// A minimal individual will serialize the `id`
-    /// and the enum fields (`sex` and `karyotypicSex`).
-    #[test]
-    fn serialize_individual_minimal_fields() {
-        let individual = Individual {
-            id: "".into(),
-            alternate_ids: vec![],
-            date_of_birth: None,
-            time_at_last_encounter: None,
-            vital_status: None,
-            sex: Sex::UnknownSex.into(),
-            karyotypic_sex: KaryotypicSex::UnknownKaryotype.into(),
-            gender: None,
-            taxonomy: None,
-        };
+//     use crate::generated::org_phenopackets_schema_v2_core::TimeInterval;
 
-        let actual = serde_json::to_string(&individual).expect("Expecting no serialization issues");
+//     #[test]
+//     fn serialize_time_interval() {
+//         let ti = TimeInterval {
+//             start: Some(
+//                 "1970-01-02T10:17:36.000000100Z"
+//                     .parse()
+//                     .expect("Timestamp should be well formatted"),
+//             ),
+//             end: Some(
+//                 "1970-01-02T10:17:36.000000200Z"
+//                     .parse()
+//                     .expect("Timestamp should be well formatted"),
+//             ),
+//         };
 
-        assert_eq!(actual, r#"{"id":"","sex":"UNKNOWN_SEX","karyotypicSex":"UNKNOWN_KARYOTYPE"}"#)
-    }
-}
+//         let actual = serde_json::to_string(&ti).expect("Expecting no serialization issues");
+
+//         assert_eq!(
+//             actual.as_str(),
+//             r#"{"start":"1970-01-02T10:17:36.000000100Z","end":"1970-01-02T10:17:36.000000200Z"}"#
+//         );
+//     }
+
+//     #[test]
+//     fn deserialize_time_interval() {
+//         let val =
+//             r#"{"start":"1970-01-02T10:17:36.000000100Z","end":"1970-01-02T10:17:36.000000200Z"}"#;
+//         let ti: TimeInterval = serde_json::from_str(val).expect("No deserialization issues");
+
+//         assert_eq!(
+//             ti.start,
+//             Some(
+//                 "1970-01-02T10:17:36.000000100Z"
+//                     .parse::<Timestamp>()
+//                     .unwrap()
+//             )
+//         );
+//         assert_eq!(
+//             ti.end,
+//             Some(
+//                 "1970-01-02T10:17:36.000000200Z"
+//                     .parse::<Timestamp>()
+//                     .unwrap()
+//             )
+//         );
+//     }
+// }
 
 impl Serialize for TimeElement {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
@@ -82,6 +114,111 @@ impl Serialize for TimeElement {
             }
         }
         te.end()
+    }
+}
+
+impl<'de> Deserialize<'de> for TimeElement {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "gestationalAge",
+            "age",
+            "ageRange",
+            "ontologyClass",
+            "timestamp",
+            "timeInterval",
+        ];
+        enum Field {
+            GestationalAge,
+            Age,
+            AgeRange,
+            OntologyClass,
+            Timestamp,
+            TimeInterval,
+        }
+
+        impl<'de> Deserialize<'de> for Field {
+            fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+            where
+                D: Deserializer<'de>,
+            {
+                struct FieldVisitor;
+
+                impl<'de> Visitor<'de> for FieldVisitor {
+                    type Value = Field;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+                        formatter.write_str(
+                            "gestationalAge, age, ageRange, ontologyClass, timestamp, timeInterval",
+                        )
+                    }
+
+                    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+                    where
+                        E: de::Error,
+                    {
+                        match value {
+                            "gestationalAge" => Ok(Field::GestationalAge),
+                            "age" => Ok(Field::Age),
+                            "ageRange" => Ok(Field::AgeRange),
+                            "ontologyClass" => Ok(Field::OntologyClass),
+                            "timestamp" => Ok(Field::Timestamp),
+                            "timeInterval" => Ok(Field::TimeInterval),
+                            _ => Err(de::Error::unknown_field(value, FIELDS)),
+                        }
+                    }
+                }
+
+                deserializer.deserialize_identifier(FieldVisitor)
+            }
+        }
+
+        struct TimeElementVisitor;
+
+        impl<'de> Visitor<'de> for TimeElementVisitor {
+            type Value = TimeElement;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+                formatter.write_str("struct TimeElement")
+            }
+
+            fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>
+            where
+                A: de::MapAccess<'de>,
+            {
+                if let Some(key) = map.next_key()? {
+                    match key {
+                        Field::GestationalAge => Ok(TimeElement {
+                            element: Some(Element::GestationalAge(map.next_value()?)),
+                        }),
+                        Field::Age => Ok(TimeElement {
+                            element: Some(Element::Age(map.next_value()?)),
+                        }),
+                        Field::AgeRange => Ok(TimeElement {
+                            element: Some(Element::AgeRange(map.next_value()?)),
+                        }),
+                        Field::OntologyClass => Ok(TimeElement {
+                            element: Some(Element::OntologyClass(map.next_value()?)),
+                        }),
+                        Field::Timestamp => match map.next_value::<&str>()?.parse() {
+                            Ok(ts) => Ok(TimeElement {
+                                element: Some(Element::Timestamp(ts)),
+                            }),
+                            Err(err) => return Err(de::Error::custom(err)),
+                        },
+                        Field::TimeInterval => Ok(TimeElement {
+                            element: Some(Element::Interval(map.next_value()?)),
+                        }),
+                    }
+                } else {
+                    Err(de::Error::custom("Unknown value"))
+                }
+            }
+        }
+
+        deserializer.deserialize_struct("TimeElement", FIELDS, TimeElementVisitor)
     }
 }
 
@@ -118,157 +255,573 @@ mod test_time_element {
     }
 }
 
-impl Serialize for TimeInterval {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let mut ti = serializer.serialize_struct("TimeInterval", 2)?;
-        if let Some(start) = self.start.as_ref() {
-            ti.serialize_field("start", &start.to_string())?
-        }
-        if let Some(end) = self.end.as_ref() {
-            ti.serialize_field("end", &end.to_string())?
-        }
+pub(super) struct ProgressStatusVisitor;
+impl<'de> Visitor<'de> for ProgressStatusVisitor {
+    type Value = i32;
 
-        ti.end()
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        const FIELDS: &[&str] = &[
+            "UNKNOWN_PROGRESS",
+            "IN_PROGRESS",
+            "COMPLETED",
+            "SOLVED",
+            "UNSOLVED",
+        ];
+        write!(
+            formatter,
+            "signed int [0,{}] or one of {:?}",
+            FIELDS.len() - 1,
+            FIELDS
+        )
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        match ProgressStatus::from_str_name(value) {
+            Some(ks) => Ok(ks as i32),
+            None => Err(de::Error::invalid_value(de::Unexpected::Str(value), &self)),
+        }
+    }
+
+    fn visit_i32<E>(self, value: i32) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        if ProgressStatus::is_valid(value) {
+            Ok(value)
+        } else {
+            Err(de::Error::invalid_value(
+                de::Unexpected::Signed(value as i64),
+                &self,
+            ))
+        }
+    }
+}
+
+pub(super) struct InterpretationStatusVisitor;
+impl<'de> Visitor<'de> for InterpretationStatusVisitor {
+    type Value = i32;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        const FIELDS: &[&str] = &[
+            "UNKNOWN_STATUS",
+            "REJECTED",
+            "CANDIDATE",
+            "CONTRIBUTORY",
+            "CAUSATIVE",
+        ];
+        write!(
+            formatter,
+            "signed int [0,{}] or one of {:?}",
+            FIELDS.len() - 1,
+            FIELDS
+        )
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        match InterpretationStatus::from_str_name(value) {
+            Some(ks) => Ok(ks as i32),
+            None => Err(de::Error::invalid_value(de::Unexpected::Str(value), &self)),
+        }
+    }
+
+    fn visit_i32<E>(self, value: i32) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        if InterpretationStatus::is_valid(value) {
+            Ok(value)
+        } else {
+            Err(de::Error::invalid_value(
+                de::Unexpected::Signed(value as i64),
+                &self,
+            ))
+        }
+    }
+}
+
+pub(super) struct AcmgPathogenicityClassificationVisitor;
+impl<'de> Visitor<'de> for AcmgPathogenicityClassificationVisitor {
+    type Value = i32;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        const FIELDS: &[&str] = &[
+            "NOT_PROVIDED",
+            "BENIGN",
+            "LIKELY_BENIGN",
+            "UNCERTAIN_SIGNIFICANCE",
+            "LIKELY_PATHOGENIC",
+            "PATHOGENIC",
+        ];
+        write!(
+            formatter,
+            "signed int [0,{}] or one of {:?}",
+            FIELDS.len() - 1,
+            FIELDS
+        )
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        match AcmgPathogenicityClassification::from_str_name(value) {
+            Some(ks) => Ok(ks as i32),
+            None => Err(de::Error::invalid_value(de::Unexpected::Str(value), &self)),
+        }
+    }
+
+    fn visit_i32<E>(self, value: i32) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        if AcmgPathogenicityClassification::is_valid(value) {
+            Ok(value)
+        } else {
+            Err(de::Error::invalid_value(
+                de::Unexpected::Signed(value as i64),
+                &self,
+            ))
+        }
+    }
+}
+
+pub(super) struct TherapeuticActionabilityVisitor;
+impl<'de> Visitor<'de> for TherapeuticActionabilityVisitor {
+    type Value = i32;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        const FIELDS: &[&str] = &["UNKNOWN_ACTIONABILITY", "NOT_ACTIONABLE", "ACTIONABLE"];
+        write!(
+            formatter,
+            "signed int [0,{}] or one of {:?}",
+            FIELDS.len() - 1,
+            FIELDS
+        )
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        match TherapeuticActionability::from_str_name(value) {
+            Some(ks) => Ok(ks as i32),
+            None => Err(de::Error::invalid_value(de::Unexpected::Str(value), &self)),
+        }
+    }
+
+    fn visit_i32<E>(self, value: i32) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        if TherapeuticActionability::is_valid(value) {
+            Ok(value)
+        } else {
+            Err(de::Error::invalid_value(
+                de::Unexpected::Signed(value as i64),
+                &self,
+            ))
+        }
+    }
+}
+
+pub(super) struct SexVisitor;
+impl<'de> Visitor<'de> for SexVisitor {
+    type Value = i32;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        const FIELDS: &[&str] = &["UNKNOWN_SEX", "FEMALE", "MALE", "OTHER_SEX"];
+        write!(
+            formatter,
+            "signed int [0,{}] or one of {:?}",
+            FIELDS.len() - 1,
+            FIELDS
+        )
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        match Sex::from_str_name(value) {
+            Some(ks) => Ok(ks as i32),
+            None => Err(de::Error::invalid_value(de::Unexpected::Str(value), &self)),
+        }
+    }
+
+    fn visit_i32<E>(self, value: i32) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        if Sex::is_valid(value) {
+            Ok(value)
+        } else {
+            Err(de::Error::invalid_value(
+                de::Unexpected::Signed(value as i64),
+                &self,
+            ))
+        }
+    }
+}
+
+pub(super) struct KaryotypicSexVisitor;
+impl<'de> Visitor<'de> for KaryotypicSexVisitor {
+    type Value = i32;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        const FIELDS: &[&str] = &[
+            "UNKNOWN_KARYOTYPE",
+            "XX",
+            "XY",
+            "XO",
+            "XXY",
+            "XXX",
+            "XXYY",
+            "XXXY",
+            "XXXX",
+            "XYY",
+            "OTHER_KARYOTYPE",
+        ];
+        write!(
+            formatter,
+            "signed int [0,{}] or one of {:?}",
+            FIELDS.len() - 1,
+            FIELDS
+        )
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        match KaryotypicSex::from_str_name(value) {
+            Some(ks) => Ok(ks as i32),
+            None => Err(de::Error::invalid_value(de::Unexpected::Str(value), &self)),
+        }
+    }
+
+    fn visit_i32<E>(self, value: i32) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        if KaryotypicSex::is_valid(value) {
+            Ok(value)
+        } else {
+            Err(de::Error::invalid_value(
+                de::Unexpected::Signed(value as i64),
+                &self,
+            ))
+        }
+    }
+}
+
+pub(super) struct VitalStatusStatusVisitor;
+impl<'de> Visitor<'de> for VitalStatusStatusVisitor {
+    type Value = i32;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        const FIELDS: &[&str] = &["UNKNOWN_STATUS", "ALIVE", "DECEASED"];
+        write!(
+            formatter,
+            "signed int [0,{}] or one of {:?}",
+            FIELDS.len() - 1,
+            FIELDS
+        )
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        match Status::from_str_name(value) {
+            Some(ks) => Ok(ks as i32),
+            None => Err(de::Error::invalid_value(de::Unexpected::Str(value), &self)),
+        }
+    }
+
+    fn visit_i32<E>(self, value: i32) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        if Status::is_valid(value) {
+            Ok(value)
+        } else {
+            Err(de::Error::invalid_value(
+                de::Unexpected::Signed(value as i64),
+                &self,
+            ))
+        }
+    }
+}
+
+pub(super) struct RegimenStatusVisitor;
+impl<'de> Visitor<'de> for RegimenStatusVisitor {
+    type Value = i32;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        const FIELDS: &[&str] = &["UNKNOWN_STATUS", "STARTED", "COMPLETED", "DISCONTINUED"];
+        write!(
+            formatter,
+            "signed int [0,{}] or one of {:?}",
+            FIELDS.len() - 1,
+            FIELDS
+        )
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        match RegimenStatus::from_str_name(value) {
+            Some(ks) => Ok(ks as i32),
+            None => Err(de::Error::invalid_value(de::Unexpected::Str(value), &self)),
+        }
+    }
+
+    fn visit_i32<E>(self, value: i32) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        if RegimenStatus::is_valid(value) {
+            Ok(value)
+        } else {
+            Err(de::Error::invalid_value(
+                de::Unexpected::Signed(value as i64),
+                &self,
+            ))
+        }
+    }
+}
+
+pub(super) struct DrugTypeVisitor;
+impl<'de> Visitor<'de> for DrugTypeVisitor {
+    type Value = i32;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        const FIELDS: &[&str] = &[
+            "UNKNOWN_DRUG_TYPE",
+            "PRESCRIPTION",
+            "EHR_MEDICATION_LIST",
+            "ADMINISTRATION_RELATED_TO_PROCEDURE",
+        ];
+        write!(
+            formatter,
+            "signed int [0,{}] or one of {:?}",
+            FIELDS.len() - 1,
+            FIELDS
+        )
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        match DrugType::from_str_name(value) {
+            Some(ks) => Ok(ks as i32),
+            None => Err(de::Error::invalid_value(de::Unexpected::Str(value), &self)),
+        }
+    }
+
+    fn visit_i32<E>(self, value: i32) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        if DrugType::is_valid(value) {
+            Ok(value)
+        } else {
+            Err(de::Error::invalid_value(
+                de::Unexpected::Signed(value as i64),
+                &self,
+            ))
+        }
+    }
+}
+
+pub(super) struct AffectedStatusVisitor;
+impl<'de> Visitor<'de> for AffectedStatusVisitor {
+    type Value = i32;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        const FIELDS: &[&str] = &["MISSING", "UNAFFECTED", "AFFECTED"];
+        write!(
+            formatter,
+            "signed int [0,{}] or one of {:?}",
+            FIELDS.len() - 1,
+            FIELDS
+        )
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        match AffectedStatus::from_str_name(value) {
+            Some(ks) => Ok(ks as i32),
+            None => Err(de::Error::invalid_value(de::Unexpected::Str(value), &self)),
+        }
+    }
+
+    fn visit_i32<E>(self, value: i32) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        if AffectedStatus::is_valid(value) {
+            Ok(value)
+        } else {
+            Err(de::Error::invalid_value(
+                de::Unexpected::Signed(value as i64),
+                &self,
+            ))
+        }
+    }
+}
+
+pub(super) struct MoleculeContextVisitor;
+impl<'de> Visitor<'de> for MoleculeContextVisitor {
+    type Value = i32;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        const FIELDS: &[&str] = &[
+            "unspecified_molecule_context",
+            "genomic",
+            "transcript",
+            "protein",
+        ];
+        write!(
+            formatter,
+            "signed int [0,{}] or one of {:?}",
+            FIELDS.len() - 1,
+            FIELDS
+        )
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        match MoleculeContext::from_str_name(value) {
+            Some(ks) => Ok(ks as i32),
+            None => Err(de::Error::invalid_value(de::Unexpected::Str(value), &self)),
+        }
+    }
+
+    fn visit_i32<E>(self, value: i32) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        if MoleculeContext::is_valid(value) {
+            Ok(value)
+        } else {
+            Err(de::Error::invalid_value(
+                de::Unexpected::Signed(value as i64),
+                &self,
+            ))
+        }
     }
 }
 
 #[cfg(test)]
-mod test_time_interval {
-    use crate::generated::org_phenopackets_schema_v2_core::TimeInterval;
+mod test_individual {
+    use crate::generated::org_phenopackets_schema_v2_core::{
+        time_element::Element, Age, Individual, KaryotypicSex, OntologyClass, Sex, TimeElement,
+    };
+
+    /// A minimal individual serializes only the enum fields (`sex` and `karyotypicSex`).
+    #[test]
+    fn serialize_individual_minimal_fields() {
+        let individual = Individual {
+            id: "".into(),
+            alternate_ids: vec![],
+            date_of_birth: None,
+            time_at_last_encounter: None,
+            vital_status: None,
+            sex: Sex::UnknownSex.into(),
+            karyotypic_sex: KaryotypicSex::UnknownKaryotype.into(),
+            gender: None,
+            taxonomy: None,
+        };
+
+        let actual = serde_json::to_string(&individual).expect("Expecting no serialization issues");
+
+        assert_eq!(
+            actual,
+            r#"{"sex":"UNKNOWN_SEX","karyotypicSex":"UNKNOWN_KARYOTYPE"}"#
+        )
+    }
 
     #[test]
-    fn serialize_time_interval() {
-        let ti = TimeInterval {
-            start: Some(
+    fn deserialize_individual() {
+        let value = r#"{
+        "id": "14 year-old boy",
+        "alternateIds": ["boy", "patient", "proband"],
+        "dateOfBirth": "1970-01-02T10:17:36.000000100Z",
+        "timeAtLastEncounter": {
+            "age": {
+                "iso8601duration": "P14Y"
+            }
+        },
+        "sex": "MALE",
+        "karyotypicSex": "XY",
+        "taxonomy": {
+            "id": "NCBITaxon:9606",
+            "label": "homo sapiens"
+        }
+        }"#;
+
+        let individual: Individual =
+            serde_json::from_str(value).expect("No deserialization issues");
+
+        assert_eq!(&individual.id, "14 year-old boy");
+        assert_eq!(&individual.alternate_ids, &["boy", "patient", "proband"]);
+        assert_eq!(
+            individual.date_of_birth,
+            Some(
                 "1970-01-02T10:17:36.000000100Z"
                     .parse()
-                    .expect("Timestamp should be well formatted"),
-            ),
-            end: Some(
-                "1970-01-02T10:17:36.000000200Z"
-                    .parse()
-                    .expect("Timestamp should be well formatted"),
-            ),
-        };
-
-        let actual = serde_json::to_string(&ti).expect("Expecting no serialization issues");
-
+                    .expect("No issues here")
+            )
+        );
         assert_eq!(
-            actual.as_str(),
-            r#"{"start":"1970-01-02T10:17:36.000000100Z","end":"1970-01-02T10:17:36.000000200Z"}"#
+            individual.time_at_last_encounter,
+            Some(TimeElement {
+                element: Some(Element::Age(Age {
+                    iso8601duration: "P14Y".into()
+                }))
+            })
+        );
+        assert_eq!(individual.vital_status, None);
+        assert_eq!(individual.sex(), Sex::Male);
+        assert_eq!(individual.karyotypic_sex(), KaryotypicSex::Xy);
+        assert_eq!(individual.gender, None);
+        assert_eq!(
+            individual.taxonomy,
+            Some(OntologyClass {
+                id: "NCBITaxon:9606".into(),
+                label: "homo sapiens".into()
+            })
         );
     }
-}
-
-impl Serialize for MetaData {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let mut ser = serializer.serialize_struct("MetaData", 7)?;
-        if let Some(created) = self.created.as_ref() {
-            ser.serialize_field("created", &created.to_string())?;
-        } else {
-            // Doesn't really matter if this is not `Timestamp`,
-            // since `null` is null for `String` as well.
-            ser.serialize_field("created", &None::<String>)?;
-        }
-
-        ser.serialize_field("createdBy", &self.created_by)?;
-
-        if !self.submitted_by.is_empty() {
-            ser.serialize_field("submittedBy", &self.submitted_by)?;
-        }
-
-        if !self.resources.is_empty() {
-            ser.serialize_field("resources", &self.resources)?;
-        }
-
-        if !self.updates.is_empty() {
-            ser.serialize_field("updates", &self.updates)?;
-        }
-
-        ser.serialize_field("phenopacketSchemaVersion", &self.phenopacket_schema_version)?;
-
-        if !self.external_references.is_empty() {
-            ser.serialize_field("externalReferences", &self.external_references)?;
-        }
-
-        ser.end()
-    }
-}
-
-#[cfg(test)]
-mod test_metadata {
-    use crate::generated::org_phenopackets_schema_v2_core::MetaData;
-
-    /// Expecting to see required elements even if they are empty.
-    /// but not `resources`, if empty.
-    #[test]
-    fn serialize_metadata() {
-        let meta = MetaData {
-            created: Some("2019-07-21T00:25:54.662Z".parse().expect("Timestamp should be well formatted")),
-            created_by: "Peter R.".into(),
-            submitted_by: "".into(),
-            resources: vec![],
-            updates: vec![],
-            phenopacket_schema_version: "".into(),
-            external_references: vec![],
-        };
-
-        let actual = serde_json::to_string(&meta).expect("Expecting no serialization issues");
-
-        assert_eq!(actual, r#"{"created":"2019-07-21T00:25:54.662Z","createdBy":"Peter R.","phenopacketSchemaVersion":""}"#)
-    }
-}
-
-impl Serialize for Update {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let mut ser = serializer.serialize_struct("Update", 3)?;
-
-        ser.serialize_field(
-            "timestamp",
-            &self.timestamp.as_ref().map(ToString::to_string),
-        )?;
-
-        if !self.updated_by.is_empty() {
-            ser.serialize_field("updatedBy", &self.updated_by)?;
-        }
-        if !self.comment.is_empty() {
-            ser.serialize_field("comment", &self.comment)?;
-        }
-
-        ser.end()
-    }
-}
-
-#[cfg(test)]
-mod test_update {
-    use crate::generated::org_phenopackets_schema_v2_core::Update;
 
     #[test]
-    fn serialize_update() {
-        let u = Update {
-            timestamp: Some(
-                "2018-06-10T10:59:06Z"
-                    .parse()
-                    .expect("Timestamp should be OK"),
-            ),
-            updated_by: "Julius J.".into(),
-            comment: "added phenotypic features to individual patient:1".into(),
-        };
+    fn deserialize_individual_minimal_example() {
+        let value = "{}";
 
-        let actual = serde_json::to_string(&u).expect("Expecting no serialization issues");
+        let individual: Individual =
+            serde_json::from_str(value).expect("No deserialization issues");
 
-        assert_eq!(
-            actual.as_str(),
-            r#"{"timestamp":"2018-06-10T10:59:06Z","updatedBy":"Julius J.","comment":"added phenotypic features to individual patient:1"}"#
-        )
+        assert_eq!(&individual.id, "");
+        assert!(individual.alternate_ids.is_empty());
+        assert_eq!(individual.date_of_birth, None);
+        assert_eq!(individual.time_at_last_encounter, None);
+        assert_eq!(individual.vital_status, None);
+        assert_eq!(individual.sex, 0);
+        assert_eq!(individual.karyotypic_sex, 0);
+        assert_eq!(individual.gender, None);
+        assert_eq!(individual.taxonomy, None);
     }
 }

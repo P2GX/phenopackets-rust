@@ -6,134 +6,270 @@ use serde::{Deserialize, Serialize};
 
 /// <https://vrsatile.readthedocs.io/en/latest/value_object_descriptor/vod_index.html#extension>
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct Extension {
     #[prost(string, tag = "1")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub name: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub value: ::prost::alloc::string::String,
 }
 /// <https://vrsatile.readthedocs.io/en/latest/value_object_descriptor/vod_index.html#expression>
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct Expression {
     #[prost(string, tag = "1")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub syntax: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub value: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "String::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub version: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct VcfRecord {
     #[prost(string, tag = "1")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub genome_assembly: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub chrom: ::prost::alloc::string::String,
     #[prost(uint64, tag = "3")]
     pub pos: u64,
     #[prost(string, tag = "4")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "String::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub id: ::prost::alloc::string::String,
     #[prost(string, tag = "5")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub r#ref: ::prost::alloc::string::String,
     #[prost(string, tag = "6")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub alt: ::prost::alloc::string::String,
     #[prost(string, tag = "7")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "String::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub qual: ::prost::alloc::string::String,
     #[prost(string, tag = "8")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "String::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub filter: ::prost::alloc::string::String,
     #[prost(string, tag = "9")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "String::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub info: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct VariationDescriptor {
     #[prost(string, tag = "1")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub id: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "2")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", default)
+    )]
     pub variation: ::core::option::Option<crate::ga4gh::vrs::v1::Variation>,
     #[prost(string, tag = "3")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "String::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub label: ::prost::alloc::string::String,
     #[prost(string, tag = "4")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "String::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub description: ::prost::alloc::string::String,
     /// A specific gene context that applies to this variant.
     #[prost(message, optional, tag = "5")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", default)
+    )]
     pub gene_context: ::core::option::Option<GeneDescriptor>,
     /// HGVS, SPDI, and gnomAD-style strings should be represented as Expressions
     #[prost(message, repeated, tag = "6")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Vec::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Vec::is_empty", default)
+    )]
     pub expressions: ::prost::alloc::vec::Vec<Expression>,
     /// A VCF Record of the variant. This SHOULD be a single allele, the VCF genotype (GT) field should be represented in
     /// the allelic_state
     #[prost(message, optional, tag = "7")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", default)
+    )]
     pub vcf_record: ::core::option::Option<VcfRecord>,
     /// Allele registry, ClinVar, or other related IDs should be included as xrefs
     #[prost(string, repeated, tag = "8")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Vec::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Vec::is_empty", default)
+    )]
     pub xrefs: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// Common aliases for a variant, e.g. EGFR vIII, are alternate labels
     #[prost(string, repeated, tag = "9")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Vec::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Vec::is_empty", default)
+    )]
     pub alternate_labels: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     #[prost(message, repeated, tag = "10")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Vec::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Vec::is_empty", default)
+    )]
     pub extensions: ::prost::alloc::vec::Vec<Extension>,
     /// The molecular context of the vrs variation. Must be one of “genomic”, “transcript”, or “protein”.
     /// Defaults to "unspecified_molecule_context"
     #[prost(enumeration = "MoleculeContext", tag = "11")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(
+            serialize_with = "crate::serde::helpers::serialize_molecule_context",
+            deserialize_with = "crate::serde::helpers::deserialize_molecule_context",
+            default,
+        )
+    )]
     pub molecule_context: i32,
     /// The structural variant type associated with this variant, such as a substitution, deletion, or fusion.
     /// We RECOMMEND using a descendent term of SO:0001537.
     #[prost(message, optional, tag = "12")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", default)
+    )]
     pub structural_type: ::core::option::Option<crate::schema::v2::core::OntologyClass>,
     /// A Sequence corresponding to a “ref allele”, describing the sequence expected at a SequenceLocation reference.
     #[prost(string, tag = "13")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "String::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub vrs_ref_allele_seq: ::prost::alloc::string::String,
     /// We RECOMMEND that the allelic_state of variant be described by terms from the Genotype Ontology (GENO).
     /// These SHOULD descend from concept GENO:0000875.
     #[prost(message, optional, tag = "14")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", default)
+    )]
     pub allelic_state: ::core::option::Option<crate::schema::v2::core::OntologyClass>,
 }
 /// <https://vrsatile.readthedocs.io/en/latest/value_object_descriptor/vod_index.html#gene-descriptor>
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct GeneDescriptor {
     /// The official gene identifier as designated by the organism gene nomenclature committee e.g. HGNC:3477 or MGI:2385071
     /// This should be a CURIE linking the reference to a namespace where it can be retrieved.
     /// Mirrors the value_id field of a generic value object descriptor
     #[prost(string, tag = "1")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub value_id: ::prost::alloc::string::String,
     /// The primary gene symbol. Takes the place of the label field in a generic descriptor
     #[prost(string, tag = "2")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub symbol: ::prost::alloc::string::String,
     /// A free-text description of the value object
     #[prost(string, tag = "3")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "String::is_empty", default)
+    )]
     pub description: ::prost::alloc::string::String,
     /// Alternate IDs (should be CURIE) for the same concept may be placed in alternate_ids
     #[prost(string, repeated, tag = "4")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Vec::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Vec::is_empty", default)
+    )]
     pub alternate_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// Takes the place of alternate_labels field in a generic descriptor
     #[prost(string, repeated, tag = "5")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Vec::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Vec::is_empty", default)
+    )]
     pub alternate_symbols: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// Related concept IDs (e.g. gene ortholog IDs) may be placed in xrefs
     #[prost(string, repeated, tag = "6")]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Vec::is_empty"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Vec::is_empty", default)
+    )]
     pub xrefs: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]

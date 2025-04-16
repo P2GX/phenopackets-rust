@@ -6,7 +6,11 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct Variation {
     #[prost(oneof = "variation::Variation", tags = "1, 2, 3, 4, 5")]
     pub variation: ::core::option::Option<variation::Variation>,
@@ -17,7 +21,11 @@ pub mod variation {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum Variation {
         #[prost(message, tag = "1")]
         Allele(super::Allele),
@@ -32,7 +40,11 @@ pub mod variation {
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct MolecularVariation {
     #[prost(oneof = "molecular_variation::MolecularVariation", tags = "1, 2")]
     pub molecular_variation: ::core::option::Option<molecular_variation::MolecularVariation>,
@@ -43,7 +55,11 @@ pub mod molecular_variation {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum MolecularVariation {
         #[prost(message, tag = "1")]
         Allele(super::Allele),
@@ -62,7 +78,11 @@ pub mod utility_variation {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum UtilityVariation {
         #[prost(message, tag = "1")]
         Text(super::Text),
@@ -71,7 +91,11 @@ pub mod utility_variation {
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct SystemicVariation {
     #[prost(oneof = "systemic_variation::SystemicVariation", tags = "1")]
     pub systemic_variation: ::core::option::Option<systemic_variation::SystemicVariation>,
@@ -82,14 +106,22 @@ pub mod systemic_variation {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum SystemicVariation {
         #[prost(message, tag = "1")]
         CopyNumber(super::CopyNumber),
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct Allele {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
@@ -104,7 +136,11 @@ pub mod allele {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum Location {
         #[prost(string, tag = "2")]
         Curie(::prost::alloc::string::String),
@@ -114,7 +150,11 @@ pub mod allele {
         SequenceLocation(super::SequenceLocation),
     }
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum State {
         #[prost(message, tag = "100")]
         SequenceState(super::SequenceState),
@@ -128,7 +168,11 @@ pub mod allele {
 }
 
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct Haplotype {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
@@ -141,7 +185,11 @@ pub mod haplotype {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Message)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub struct Member {
         #[prost(oneof = "member::Value", tags = "1, 2")]
         pub value: ::core::option::Option<member::Value>,
@@ -152,7 +200,11 @@ pub mod haplotype {
         use serde::{Deserialize, Serialize};
 
         #[derive(Clone, PartialEq, ::prost::Oneof)]
-        #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+        #[cfg_attr(
+            feature = "serde",
+            derive(Serialize, Deserialize),
+            serde(rename_all = "camelCase")
+        )]
         pub enum Value {
             #[prost(message, tag = "1")]
             Allele(super::super::Allele),
@@ -162,7 +214,11 @@ pub mod haplotype {
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct Text {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
@@ -170,7 +226,11 @@ pub struct Text {
     pub definition: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct VariationSet {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
@@ -183,7 +243,11 @@ pub mod variation_set {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Message)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub struct Member {
         #[prost(oneof = "member::Value", tags = "1, 2, 3, 4, 5, 6")]
         pub value: ::core::option::Option<member::Value>,
@@ -194,7 +258,11 @@ pub mod variation_set {
         use serde::{Deserialize, Serialize};
 
         #[derive(Clone, PartialEq, ::prost::Oneof)]
-        #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+        #[cfg_attr(
+            feature = "serde",
+            derive(Serialize, Deserialize),
+            serde(rename_all = "camelCase")
+        )]
         pub enum Value {
             #[prost(string, tag = "1")]
             Curie(::prost::alloc::string::String),
@@ -212,7 +280,11 @@ pub mod variation_set {
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct Abundance {
     #[prost(oneof = "abundance::Abundance", tags = "1")]
     pub abundance: ::core::option::Option<abundance::Abundance>,
@@ -223,14 +295,22 @@ pub mod abundance {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum Abundance {
         #[prost(message, tag = "1")]
         CopyNumber(super::CopyNumber),
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct CopyNumber {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
@@ -245,7 +325,11 @@ pub mod copy_number {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum Subject {
         #[prost(message, tag = "2")]
         Allele(super::Allele),
@@ -263,7 +347,11 @@ pub mod copy_number {
         Curie(::prost::alloc::string::String),
     }
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum Copies {
         #[prost(message, tag = "9")]
         Number(super::Number),
@@ -274,7 +362,11 @@ pub mod copy_number {
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct Location {
     #[prost(oneof = "location::Location", tags = "1, 2")]
     pub location: ::core::option::Option<location::Location>,
@@ -285,7 +377,11 @@ pub mod location {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum Location {
         #[prost(message, tag = "1")]
         ChromosomeLocation(super::ChromosomeLocation),
@@ -294,7 +390,11 @@ pub mod location {
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct ChromosomeLocation {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
@@ -306,7 +406,11 @@ pub struct ChromosomeLocation {
     pub interval: ::core::option::Option<CytobandInterval>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct SequenceLocation {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
@@ -321,7 +425,11 @@ pub mod sequence_location {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum Interval {
         #[prost(message, tag = "3")]
         SequenceInterval(super::SequenceInterval),
@@ -330,7 +438,11 @@ pub mod sequence_location {
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct SequenceInterval {
     #[prost(oneof = "sequence_interval::Start", tags = "1, 2, 3")]
     pub start: ::core::option::Option<sequence_interval::Start>,
@@ -343,7 +455,11 @@ pub mod sequence_interval {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum Start {
         #[prost(message, tag = "1")]
         StartNumber(super::Number),
@@ -353,7 +469,11 @@ pub mod sequence_interval {
         StartDefiniteRange(super::DefiniteRange),
     }
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum End {
         #[prost(message, tag = "4")]
         EndNumber(super::Number),
@@ -364,7 +484,11 @@ pub mod sequence_interval {
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct CytobandInterval {
     #[prost(string, tag = "1")]
     pub start: ::prost::alloc::string::String,
@@ -372,7 +496,11 @@ pub struct CytobandInterval {
     pub end: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct SequenceExpression {
     #[prost(oneof = "sequence_expression::SequenceExpression", tags = "1, 2, 3")]
     pub sequence_expression: ::core::option::Option<sequence_expression::SequenceExpression>,
@@ -383,7 +511,11 @@ pub mod sequence_expression {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum SequenceExpression {
         #[prost(message, tag = "1")]
         LiteralSequenceExpression(super::LiteralSequenceExpression),
@@ -394,13 +526,21 @@ pub mod sequence_expression {
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct LiteralSequenceExpression {
     #[prost(string, tag = "1")]
     pub sequence: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct DerivedSequenceExpression {
     #[prost(message, optional, tag = "1")]
     pub location: ::core::option::Option<SequenceLocation>,
@@ -408,7 +548,11 @@ pub struct DerivedSequenceExpression {
     pub reverse_complement: bool,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct RepeatedSequenceExpression {
     #[prost(oneof = "repeated_sequence_expression::SeqExpr", tags = "1, 2")]
     pub seq_expr: ::core::option::Option<repeated_sequence_expression::SeqExpr>,
@@ -421,7 +565,11 @@ pub mod repeated_sequence_expression {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum SeqExpr {
         #[prost(message, tag = "1")]
         LiteralSequenceExpression(super::LiteralSequenceExpression),
@@ -429,7 +577,11 @@ pub mod repeated_sequence_expression {
         DerivedSequenceExpression(super::DerivedSequenceExpression),
     }
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum Count {
         #[prost(message, tag = "3")]
         Number(super::Number),
@@ -440,7 +592,11 @@ pub mod repeated_sequence_expression {
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct Feature {
     #[prost(oneof = "feature::Feature", tags = "1")]
     pub feature: ::core::option::Option<feature::Feature>,
@@ -451,26 +607,42 @@ pub mod feature {
     use serde::{Deserialize, Serialize};
 
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    #[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum Feature {
         #[prost(message, tag = "1")]
         Gene(super::Gene),
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct Gene {
     #[prost(string, tag = "1")]
     pub gene_id: ::prost::alloc::string::String,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct Number {
     #[prost(uint64, tag = "1")]
     pub value: u64,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct IndefiniteRange {
     #[prost(uint64, tag = "1")]
     pub value: u64,
@@ -478,7 +650,11 @@ pub struct IndefiniteRange {
     pub comparator: ::prost::alloc::string::String,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct DefiniteRange {
     #[prost(uint64, tag = "1")]
     pub min: u64,
@@ -486,13 +662,21 @@ pub struct DefiniteRange {
     pub max: u64,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct SequenceState {
     #[prost(string, tag = "1")]
     pub sequence: ::prost::alloc::string::String,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-#[cfg_attr(feature = "serde", derive(Serialize), serde(rename_all = "camelCase"))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct SimpleInterval {
     #[prost(uint64, tag = "1")]
     pub start: u64,

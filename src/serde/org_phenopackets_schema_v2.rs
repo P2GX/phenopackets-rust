@@ -1,3 +1,0 @@
-// Phenopacket
-// Family
-// Cohort

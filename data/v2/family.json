@@ -221,26 +221,31 @@
     }
   },
   "relatives": [{
+    "id": "mother-phenopacket-id",
     "subject": {
       "id": "MOTHER",
       "dateOfBirth": "1970-01-01T00:00:00Z",
-      "timeAtLastEncounter": {
-      },
-      "sex": "FEMALE",
-      "taxonomy": {
-      }
+      "sex": "FEMALE"
+    },
+    "metaData": {
+      "created": "2022-10-03T16:39:04.000123456Z",
+      "createdBy": "Peter R.",
+      "phenopacketSchemaVersion": "2.0.0"
     }
   }, {
+    "id": "father-phenopacket-id",
     "subject": {
       "id": "FATHER",
       "dateOfBirth": "1970-01-01T00:00:00Z",
-      "timeAtLastEncounter": {
-      },
-      "sex": "MALE",
-      "taxonomy": {
-      }
+      "sex": "MALE"
+    },
+    "metaData": {
+      "created": "2022-10-03T16:39:04.000123456Z",
+      "createdBy": "Peter R.",
+      "phenopacketSchemaVersion": "2.0.0"
     }
   }],
+  "consanguinousParents": true,
   "pedigree": {
     "persons": [{
       "individualId": "14 year-old boy",

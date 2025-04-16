@@ -1,21 +1,29 @@
 [package]
-name = "phenopackets-dev"
-version = "0.2.3-dev0"
+name = "phenopackets"
+version = "0.2.2-post1"
 authors = ["Daniel Danis", "Daniel Danis <daniel.gordon.danis@protonmail.com>"]
 edition = "2021"
 description = "Rust bindings for Phenopacket Schema"
 readme = "README.md"
-homepage = "https://github.com/ielis/phenopackets-dev"
-repository = "https://github.com/ielis/phenopackets-dev"
+homepage = "https://github.com/P2GX/phenopackets-rust"
+repository = "https://github.com/P2GX/phenopackets-rust"
 license-file = "LICENSE"
 keywords = ["phenopackets", "phenotype", "ontology", "bioinformatics"]
 
 [badges]
 maintenance = { status = "experimental" }
 
+[features]
+serde = ["serde/derive"]
+
 [dependencies]
 prost = "0.13"
 prost-types = "0.13"
+serde = { version = "1.0.219", optional = true }
+
+[dev-dependencies]
+serde = "1.0.219"
+serde_json = "1.0.140"
 
 [build-dependencies]
 prost-build = "0.13"

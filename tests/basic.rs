@@ -1,4 +1,4 @@
-use phenopackets_dev::schema::v2;
+use phenopackets::schema::v2;
 
 #[test]
 fn ontology_class() {

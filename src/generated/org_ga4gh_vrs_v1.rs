@@ -13,6 +13,10 @@ use serde::{Deserialize, Serialize};
 )]
 pub struct Variation {
     #[prost(oneof = "variation::Variation", tags = "1, 2, 3, 4, 5")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub variation: ::core::option::Option<variation::Variation>,
 }
 /// Nested message and enum types in `Variation`.
@@ -47,6 +51,10 @@ pub mod variation {
 )]
 pub struct MolecularVariation {
     #[prost(oneof = "molecular_variation::MolecularVariation", tags = "1, 2")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub molecular_variation: ::core::option::Option<molecular_variation::MolecularVariation>,
 }
 /// Nested message and enum types in `MolecularVariation`.
@@ -68,8 +76,17 @@ pub mod molecular_variation {
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct UtilityVariation {
     #[prost(oneof = "utility_variation::UtilityVariation", tags = "1, 2")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub utility_variation: ::core::option::Option<utility_variation::UtilityVariation>,
 }
 /// Nested message and enum types in `UtilityVariation`.
@@ -98,6 +115,10 @@ pub mod utility_variation {
 )]
 pub struct SystemicVariation {
     #[prost(oneof = "systemic_variation::SystemicVariation", tags = "1")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub systemic_variation: ::core::option::Option<systemic_variation::SystemicVariation>,
 }
 /// Nested message and enum types in `SystemicVariation`.
@@ -126,8 +147,16 @@ pub struct Allele {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
     #[prost(oneof = "allele::Location", tags = "2, 3, 4")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub location: ::core::option::Option<allele::Location>,
     #[prost(oneof = "allele::State", tags = "100, 5, 6, 7")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub state: ::core::option::Option<allele::State>,
 }
 /// Nested message and enum types in `Allele`.
@@ -192,6 +221,10 @@ pub mod haplotype {
     )]
     pub struct Member {
         #[prost(oneof = "member::Value", tags = "1, 2")]
+        #[cfg_attr(
+            feature = "serde",
+            serde(skip_serializing_if = "Option::is_none", flatten)
+        )]
         pub value: ::core::option::Option<member::Value>,
     }
     /// Nested message and enum types in `Member`.
@@ -250,6 +283,10 @@ pub mod variation_set {
     )]
     pub struct Member {
         #[prost(oneof = "member::Value", tags = "1, 2, 3, 4, 5, 6")]
+        #[cfg_attr(
+            feature = "serde",
+            serde(skip_serializing_if = "Option::is_none", flatten)
+        )]
         pub value: ::core::option::Option<member::Value>,
     }
     /// Nested message and enum types in `Member`.
@@ -287,6 +324,10 @@ pub mod variation_set {
 )]
 pub struct Abundance {
     #[prost(oneof = "abundance::Abundance", tags = "1")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub abundance: ::core::option::Option<abundance::Abundance>,
 }
 /// Nested message and enum types in `Abundance`.
@@ -315,8 +356,16 @@ pub struct CopyNumber {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
     #[prost(oneof = "copy_number::Subject", tags = "2, 3, 4, 5, 6, 7, 8")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub subject: ::core::option::Option<copy_number::Subject>,
     #[prost(oneof = "copy_number::Copies", tags = "9, 10, 11")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub copies: ::core::option::Option<copy_number::Copies>,
 }
 /// Nested message and enum types in `CopyNumber`.
@@ -369,6 +418,10 @@ pub mod copy_number {
 )]
 pub struct Location {
     #[prost(oneof = "location::Location", tags = "1, 2")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub location: ::core::option::Option<location::Location>,
 }
 /// Nested message and enum types in `Location`.
@@ -417,6 +470,10 @@ pub struct SequenceLocation {
     #[prost(string, tag = "2")]
     pub sequence_id: ::prost::alloc::string::String,
     #[prost(oneof = "sequence_location::Interval", tags = "3, 100")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub interval: ::core::option::Option<sequence_location::Interval>,
 }
 /// Nested message and enum types in `SequenceLocation`.
@@ -445,8 +502,16 @@ pub mod sequence_location {
 )]
 pub struct SequenceInterval {
     #[prost(oneof = "sequence_interval::Start", tags = "1, 2, 3")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub start: ::core::option::Option<sequence_interval::Start>,
     #[prost(oneof = "sequence_interval::End", tags = "4, 5, 6")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub end: ::core::option::Option<sequence_interval::End>,
 }
 /// Nested message and enum types in `SequenceInterval`.
@@ -503,6 +568,10 @@ pub struct CytobandInterval {
 )]
 pub struct SequenceExpression {
     #[prost(oneof = "sequence_expression::SequenceExpression", tags = "1, 2, 3")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub sequence_expression: ::core::option::Option<sequence_expression::SequenceExpression>,
 }
 /// Nested message and enum types in `SequenceExpression`.
@@ -555,8 +624,16 @@ pub struct DerivedSequenceExpression {
 )]
 pub struct RepeatedSequenceExpression {
     #[prost(oneof = "repeated_sequence_expression::SeqExpr", tags = "1, 2")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub seq_expr: ::core::option::Option<repeated_sequence_expression::SeqExpr>,
     #[prost(oneof = "repeated_sequence_expression::Count", tags = "3, 4, 5")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub count: ::core::option::Option<repeated_sequence_expression::Count>,
 }
 /// Nested message and enum types in `RepeatedSequenceExpression`.
@@ -599,6 +676,10 @@ pub mod repeated_sequence_expression {
 )]
 pub struct Feature {
     #[prost(oneof = "feature::Feature", tags = "1")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub feature: ::core::option::Option<feature::Feature>,
 }
 /// Nested message and enum types in `Feature`.

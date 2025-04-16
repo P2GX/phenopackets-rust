@@ -1,10 +1,10 @@
 use serde::Serializer;
 
-use super::org_phenopackets_schema_v2_core::{
+use super::visitors::{
     AcmgPathogenicityClassificationVisitor, AffectedStatusVisitor, DrugTypeVisitor,
     InterpretationStatusVisitor, KaryotypicSexVisitor, MoleculeContextVisitor,
     ProgressStatusVisitor, RegimenStatusVisitor, SexVisitor, TherapeuticActionabilityVisitor,
-    TimestampOptionVisitor, VitalStatusStatusVisitor,
+    TimestampOptionVisitor, TimestampVisitor, VitalStatusStatusVisitor,
 };
 use prost_types::Timestamp;
 
@@ -172,6 +172,20 @@ where
     D: serde::de::Deserializer<'de>,
 {
     deserializer.deserialize_any(TimestampOptionVisitor)
+}
+
+pub(crate) fn serialize_timestamp<S>(val: &Timestamp, serializer: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    serializer.serialize_some(&val.to_string())
+}
+
+pub(crate) fn deserialize_timestamp<'de, D>(deserializer: D) -> Result<Timestamp, D::Error>
+where
+    D: serde::de::Deserializer<'de>,
+{
+    deserializer.deserialize_any(TimestampVisitor)
 }
 
 pub(crate) fn serialize_affected_status<S>(value: &i32, serializer: S) -> Result<S::Ok, S::Error>

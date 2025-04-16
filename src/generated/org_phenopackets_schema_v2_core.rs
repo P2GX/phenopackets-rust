@@ -6,27 +6,27 @@
 // ### Serialization
 //
 // #### Default values
-// 
+//
 // Field containing default/empty values (`Option::None`, an empty `Vec` or `String`) are *not* serialized.
 // This aligns with Protobuf JSON serialization.
-// 
+//
 // In result, when deserializing a JSON file, it is impossible to know if the value was absent or equal to default value.
 // For instance, `VitalStatus::survival_time_in_days` may have been set to `0`, to indicate death at the diagnosis day,
 // or absent to indicate a missing value.
-// 
+//
 // ### Enums
-// 
+//
 // Prost uses `i32` to represent enum discriminant, including the serialization into Protobuf wire format.
 // However, to use with serde, we convert the `i32` into a `str` with a bespoke serialization function.
 //
 // ### Deserialization
-// 
+//
 // #### Default values
-// 
+//
 // Field is initialized with a default value if not present in the source.
 //
 // #### Enums
-// 
+//
 // A bespoke deserialization function maps from `str` into Protobuf enum's discriminant (`i32`).
 
 #[cfg(feature = "serde")]
@@ -237,13 +237,31 @@ pub struct TimeInterval {
     pub end: ::core::option::Option<::prost_types::Timestamp>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(rename_all = "camelCase")
+)]
 pub struct TimeElement {
     #[prost(oneof = "time_element::Element", tags = "6, 1, 2, 3, 4, 5")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub element: ::core::option::Option<time_element::Element>,
 }
 /// Nested message and enum types in `TimeElement`.
 pub mod time_element {
+
+    #[cfg(feature = "serde")]
+    use serde::{Deserialize, Serialize};
+
     #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[cfg_attr(
+        feature = "serde",
+        derive(Serialize, Deserialize),
+        serde(rename_all = "camelCase")
+    )]
     pub enum Element {
         #[prost(message, tag = "6")]
         GestationalAge(super::GestationalAge),
@@ -254,6 +272,13 @@ pub mod time_element {
         #[prost(message, tag = "3")]
         OntologyClass(super::OntologyClass),
         #[prost(message, tag = "4")]
+        #[cfg_attr(
+            feature = "serde",
+            serde(
+                serialize_with = "crate::serde::helpers::serialize_timestamp",
+                deserialize_with = "crate::serde::helpers::deserialize_timestamp",
+            )
+        )]
         Timestamp(::prost_types::Timestamp),
         #[prost(message, tag = "5")]
         Interval(super::TimeInterval),
@@ -337,7 +362,7 @@ pub struct Measurement {
     #[prost(oneof = "measurement::MeasurementValue", tags = "3, 4")]
     #[cfg_attr(
         feature = "serde",
-        serde(skip_serializing_if = "Option::is_none", default)
+        serde(skip_serializing_if = "Option::is_none", flatten)
     )]
     pub measurement_value: ::core::option::Option<measurement::MeasurementValue>,
 }
@@ -372,7 +397,7 @@ pub struct Value {
     #[prost(oneof = "value::Value", tags = "1, 2")]
     #[cfg_attr(
         feature = "serde",
-        serde(skip_serializing_if = "Option::is_none", default)
+        serde(skip_serializing_if = "Option::is_none", flatten)
     )]
     pub value: ::core::option::Option<value::Value>,
 }
@@ -964,6 +989,10 @@ pub struct GenomicInterpretation {
     /// Gene or variant identified in subject or biosample and interpreted in relation to the disease diagnosis. In this
     /// context athe 'gene' is a proxy for an unspecified alteration in the indicated gene.
     #[prost(oneof = "genomic_interpretation::Call", tags = "3, 4")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub call: ::core::option::Option<genomic_interpretation::Call>,
 }
 /// Nested message and enum types in `GenomicInterpretation`.
@@ -1045,7 +1074,7 @@ pub struct VariantInterpretation {
             serialize_with = "crate::serde::helpers::serialize_therapeutic_actionability",
             deserialize_with = "crate::serde::helpers::deserialize_therapeutic_actionability",
             default,
-    )
+        )
     )]
     pub therapeutic_actionability: i32,
     #[prost(message, optional, tag = "3")]
@@ -1439,6 +1468,10 @@ pub struct MedicalAction {
     pub treatment_termination_reason: ::core::option::Option<OntologyClass>,
     /// ARGO mapping treatment::treatment_type
     #[prost(oneof = "medical_action::Action", tags = "1, 2, 3, 4")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub action: ::core::option::Option<medical_action::Action>,
 }
 /// Nested message and enum types in `MedicalAction`.
@@ -1603,6 +1636,10 @@ pub struct TherapeuticRegimen {
     pub regimen_status: i32,
     /// <https://ctep.cancer.gov/protocolDevelopment/policies_nomenclature.htm>
     #[prost(oneof = "therapeutic_regimen::Identifier", tags = "1, 2")]
+    #[cfg_attr(
+        feature = "serde",
+        serde(skip_serializing_if = "Option::is_none", flatten)
+    )]
     pub identifier: ::core::option::Option<therapeutic_regimen::Identifier>,
 }
 /// Nested message and enum types in `TherapeuticRegimen`.

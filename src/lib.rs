@@ -87,7 +87,7 @@
 //!
 //! No features are turned on by default.
 //!
-//! ### Optional feature flags
+//! ## Optional feature flags
 //!
 //! The following features customize Phenopackets' behavior:
 //!

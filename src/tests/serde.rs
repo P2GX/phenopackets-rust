@@ -139,5 +139,4 @@ mod v2 {
         let json = serde_json::to_string_pretty(&val).expect("Expecting no serialization issues");
         std::fs::write(fpath, &json).expect("It should be possible to write into the file");
     }
-
 }

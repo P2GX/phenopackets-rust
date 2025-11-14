@@ -1,6 +1,6 @@
 [package]
 name = "phenopackets"
-version = "0.2.2-post1"
+version = "0.2.2-post2"
 authors = ["Daniel Danis", "Daniel Danis <daniel.gordon.danis@protonmail.com>"]
 edition = "2021"
 description = "Rust bindings for Phenopacket Schema"
